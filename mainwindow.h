@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "torta.h"
+#include "graficotorta.h"
 
 #include <QMainWindow>
 // The main window to which you add toolbars,
@@ -42,11 +42,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    Torta* createTorta() const;
+    GraficoTorta* createTorta() const;
+
+    QChartView *createGraficoBarre();
+    QChartView *creaTorta();
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QChartView *creaTorta();
 };
 #endif // MAINWINDOW_H

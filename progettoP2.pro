@@ -8,19 +8,17 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    barre.cpp \
-    fettatorta.cpp \
+    graficobarre.cpp \
     graficobase.cpp \
+    graficotorta.cpp \
     main.cpp \
-    mainwindow.cpp \
-    torta.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    barre.h \
-    fettatorta.h \
+    graficobarre.h \
     graficobase.h \
-    mainwindow.h \
-    torta.h
+    graficotorta.h \
+    mainwindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

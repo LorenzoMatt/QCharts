@@ -1,8 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include "graficotorta.h"
-
 #include <QMainWindow>
 // The main window to which you add toolbars,
 // menubars, widgets and status bar
@@ -38,17 +35,29 @@
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 using namespace QtCharts;
+
+class GraficiController;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    GraficoTorta* createTorta() const;
+    GraficiController* controller;
 
+
+    //funzioni
     QChartView *createGraficoBarre();
     QChartView *creaTorta();
-
+    QChartView *createGraficoLinee();
+    QChartView * chartView;
+    
 public:
     MainWindow(QWidget *parent = nullptr);
+    MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent = nullptr);
     ~MainWindow();
+    GraficiController *getController() const;
+    void setController(GraficiController *newController);
+    QChartView *getChartView() const;
+    void setChartView(QChartView *newChartView);
 };
 #endif // MAINWINDOW_H

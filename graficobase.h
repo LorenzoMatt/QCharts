@@ -10,8 +10,9 @@ private:
     string titolo;
 public:
     GraficoBase();
+    GraficoBase(const string &titolo);
     virtual ~ GraficoBase();
-    virtual void salva() const = 0;
+    virtual void salva(string) const = 0;
     virtual string getNomeClasse() const = 0;
     const string &getTitolo() const;
     void setTitolo(const string &newTitolo);

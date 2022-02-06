@@ -10,11 +10,11 @@ private:
     map<string, double> fette;
 public:
     GraficoTorta();
-    ~GraficoTorta();
     GraficoTorta(const map<string, double> &fette);
     const map<string, double> &getFette() const;
     void setFette(const map<string, double> &newFette);
-    void salva() const;
+
+    void salva(string) const;
     string getNomeClasse() const;
 };
 

@@ -20,3 +20,6 @@ GraficoBase::~GraficoBase()
 {
 
 }
+
+GraficoBase::GraficoBase(const string &titolo) : titolo(titolo)
+{}

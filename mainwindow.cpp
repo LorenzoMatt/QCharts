@@ -1,10 +1,9 @@
 #include "mainwindow.h"
-#include "graficotorta.h"
-#include "graficobarre.h"
+#include "graficicontroller.h"
 
 QChartView* MainWindow::creaTorta()
 {
-    GraficoTorta* t = createTorta();
+    GraficoTorta* t = controller->getGraficoTorta();
 
     QPieSeries *series = new QPieSeries();
     for (auto it= t->getFette().begin();it != t->getFette().end();++it) {
@@ -34,42 +33,29 @@ QChartView* MainWindow::creaTorta()
     return chartView;
 }
 
-GraficoTorta *MainWindow::createTorta() const
+GraficiController *MainWindow::getController() const
 {
-    map<string, double> fette;
-    fette["Vegetables"]=.40;
-    fette["Beans"]=.20;
-    fette["Fruits"]=.15;
-    fette["Seeds/Nuts"]=.10;
-    fette["Whole Grains"]=.15;
-    GraficoTorta* t = new GraficoTorta(fette);
-    t->setTitolo("What Derek Ate this Week");
-    return t;
+    return controller;
+}
+
+void MainWindow::setController(GraficiController *newController)
+{
+    controller = newController;
+}
+
+QChartView *MainWindow::getChartView() const
+{
+    return chartView;
+}
+
+void MainWindow::setChartView(QChartView *newChartView)
+{
+    chartView = newChartView;
 }
 
 QChartView* MainWindow::createGraficoBarre()
 {
-    list<double> dati1;
-    dati1.push_back(283);
-    dati1.push_back(341);
-    dati1.push_back(313);
-    dati1.push_back(338);
-    dati1.push_back(346);
-    dati1.push_back(335);
-
-    map<string, list<double>> dati;
-
-    dati["Altuve"] = dati1;
-    dati["Martinez"] = dati1;
-    GraficoBarre* graficoBarre = new GraficoBarre(dati);
-    list<string> categorie;
-    categorie.push_back("2013");
-    categorie.push_back("2014");
-    categorie.push_back("2015");
-    categorie.push_back("2016");
-    categorie.push_back("2017");
-    categorie.push_back("2018");
-    graficoBarre->setCategorie(categorie);
+    GraficoBarre* graficoBarre =controller->getGraficoBarre();
 
     // Add all sets of data to the chart as a whole
     // 1. Bar Chart
@@ -94,7 +80,7 @@ QChartView* MainWindow::createGraficoBarre()
     chart->addSeries(series);
 
     // Set title
-    chart->setTitle("Batting Avg by Year");
+    chart->setTitle(QString::fromStdString(graficoBarre->getTitolo()));
 
     // Define starting animation
     // NoAnimation, GridAxisAnimations, SeriesAnimations
@@ -128,80 +114,60 @@ QChartView* MainWindow::createGraficoBarre()
     return chartView;
 }
 
+ QChartView * MainWindow::createGraficoLinee()
+{
+    GraficoLinee* graficoLinee = controller->getGraficoLinee();
+    QLineSeries *series = new QLineSeries();
+    QCategoryAxis *axisX = new QCategoryAxis();
+
+    unsigned int contatore = 0;
+    for (auto it = graficoLinee->getValori().begin();it != graficoLinee->getValori().end();++it) {
+        series->append(contatore, it->second);
+        axisX->append(QString::fromStdString(it->first), contatore);
+        contatore++;
+    }
+    // Create chart, add data, hide legend, and add axis
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+
+    // Customize the title font
+    QFont font;
+    font.setPixelSize(18);
+    chart->setTitleFont(font);
+    chart->setTitleBrush(QBrush(Qt::black));
+    chart->setTitle(QString::fromStdString(graficoLinee->getTitolo()));
+
+    // Change the line color and weight
+    QPen pen(QRgb(0x000000));
+    pen.setWidth(5);
+    series->setPen(pen);
+
+    chart->setAnimationOptions(QChart::AllAnimations);
+
+    // Change the x axis categories
+
+    chart->setAxisX(axisX, series);
+
+    // Used to display the chart
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    return chartView;
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
-    // Assign names to the set of bars used
-
-//     Used to change the palette
-//                QPalette pal = qApp->palette();
-
-//                // Change the color around the chart widget and text
-//                pal.setColor(QPalette::Window, QRgb(0xffffff));
-//                pal.setColor(QPalette::WindowText, QRgb(0x404044));
-
-//                // Apply palette changes to the application
-//                qApp->setPalette(pal);
-
-
-
     // 3. Line chart example
     // Other options here https://doc.qt.io/qt-5.11/qtcharts-customchart-example.html
-    /*
-            QLineSeries *series = new QLineSeries();
-            series->append(0, 16);
-            series->append(1, 25);
-            series->append(2, 24);
-            series->append(3, 19);
-            series->append(4, 33);
-            series->append(5, 25);
-            series->append(6, 34);
 
-            // Create chart, add data, hide legend, and add axis
-            QChart *chart = new QChart();
-            chart->legend()->hide();
-            chart->addSeries(series);
-            chart->createDefaultAxes();
+//     chartView= createGraficoLinee();
 
-            // Customize the title font
-            QFont font;
-            font.setPixelSize(18);
-            chart->setTitleFont(font);
-            chart->setTitleBrush(QBrush(Qt::black));
-            chart->setTitle("Barry Bonds HRs as Pirate");
 
-            // Change the line color and weight
-            QPen pen(QRgb(0x000000));
-            pen.setWidth(5);
-            series->setPen(pen);
-
-            chart->setAnimationOptions(QChart::AllAnimations);
-
-            // Change the x axis categories
-            QCategoryAxis *axisX = new QCategoryAxis();
-            axisX->append("1986",0);
-            axisX->append("1987",1);
-            axisX->append("1988",2);
-            axisX->append("1989",3);
-            axisX->append("1990",4);
-            axisX->append("1991",5);
-            axisX->append("1992",6);
-            chart->setAxisX(axisX, series);
-
-            // Used to display the chart
-            QChartView *chartView = new QChartView(chart);
-            chartView->setRenderHint(QPainter::Antialiasing);
-            */
-
-    // 4. Pie Chart Example
-    // Define slices and percentage of whole they take up
-//                QChartView* chartView = creaTorta();
-
-    // Create the main app window
-    // Set the main window widget
-    QChartView *chartView= createGraficoBarre();
-
+//    chartView = creaTorta();
+    chartView= createGraficoBarre();
     setCentralWidget(chartView);
     resize(420, 300);
     show();
@@ -212,3 +178,8 @@ MainWindow::~MainWindow()
 {
 }
 
+
+MainWindow::MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent) : QMainWindow(parent),
+    controller(controller),
+    chartView(chartView)
+{}

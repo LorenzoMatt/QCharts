@@ -10,7 +10,7 @@ void GraficoTorta::setFette(const map<std::string, double> &newFette)
     fette = newFette;
 }
 
-void GraficoTorta::salva() const
+void GraficoTorta::salva(string path) const
 {
     //TODO
 }
@@ -23,10 +23,6 @@ string GraficoTorta::getNomeClasse() const
 GraficoTorta::GraficoTorta()
 {
 
-}
-
-GraficoTorta::~GraficoTorta()
-{
 }
 
 GraficoTorta::GraficoTorta(const map<string, double> &fette) : fette(fette)

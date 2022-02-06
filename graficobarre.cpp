@@ -10,7 +10,7 @@ void GraficoBarre::setDati(const map<string, list<double> > &newDati)
     dati = newDati;
 }
 
-void GraficoBarre::salva() const
+void GraficoBarre::salva(string path) const
 {
 
 }

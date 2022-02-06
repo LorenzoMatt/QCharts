@@ -74,7 +74,7 @@ public:
     void setChartView(QChartView *newChartView);
     QChartView *createGraficoBarre();
     QChartView *createGraficoTorta();
-    QChartView *createGraficoLinee();
+    QChartView *createGraficoSpezzata();
 
 private slots:
     void apriEsploraRisorse();

@@ -1,5 +1,5 @@
-#ifndef CREATORTAWIDGET_H
-#define CREATORTAWIDGET_H
+#ifndef CREASPEZZATAWIDGET_H
+#define CREASPEZZATAWIDGET_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -14,25 +14,26 @@
 #include "map"
 using std::map;
 using std::string;
-
-class CreaTortaWidget : public QWidget
+class CreaSpezzataWidget : public QWidget
 {
     Q_OBJECT
+public:
+    explicit CreaSpezzataWidget(QWidget *parent = nullptr);
 private:
     QVBoxLayout* layout;
     QFormLayout* formLayout;
     QMap<QLineEdit*, QLineEdit*> dati;
     QHBoxLayout* layoutBottoni;
-public:
-    explicit CreaTortaWidget(QWidget *parent = nullptr);
+
 signals:
     void creaTorta(map<std::string, double>);
 
 private slots:
     void finestraDiConferma();
-    void confermaCreazioneTorta();
+    void confermaCreazioneSpezzata();
     void aggiungiRiga();
+signals:
 
 };
 
-#endif // CREATORTAWIDGET_H
+#endif // CREASPEZZATAWIDGET_H

@@ -8,22 +8,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    creatortawidget.cpp \
+    coordinataspezzata.cpp \
+    creatortaospezzatawidget.cpp \
     graficicontroller.cpp \
     graficobarre.cpp \
     graficobase.cpp \
-    graficolinee.cpp \
+    graficospezzata.cpp \
     graficotorta.cpp \
     main.cpp \
     mainwindow.cpp \
     utility.cpp
 
 HEADERS += \
-    creatortawidget.h \
+    coordinataspezzata.h \
+    creatortaospezzatawidget.h \
     graficicontroller.h \
     graficobarre.h \
     graficobase.h \
-    graficolinee.h \
+    graficospezzata.h \
     graficotorta.h \
     mainwindow.h \
     utility.h

@@ -3,7 +3,7 @@
 #include <QObject>
 #include<mainwindow.h>
 #include "graficotorta.h"
-#include "graficolinee.h"
+#include "graficospezzata.h"
 #include "graficobarre.h"
 
 class MainWindow;
@@ -23,13 +23,15 @@ public:
 
     GraficoBarre* getGraficoBarre();
     GraficoTorta* getGraficoTorta();
-    GraficoLinee* getGraficoLinee();
+    GraficoSpezzata* getGraficoLinee();
     GraficoBase *getGrafico() const;
     void setGrafico(GraficoBase *newGrafico);
 
 signals:
 public slots:
     void creaNuovaTorta(map<std::string, double> valori);
+    void creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori);
+
 
 };
 

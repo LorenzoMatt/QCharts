@@ -1,8 +1,7 @@
-#include "creatortawidget.h"
+#include "creaspezzatawidget.h"
 #include "utility.h"
 
-
-CreaTortaWidget::CreaTortaWidget(QWidget *parent) : QWidget(parent)
+CreaSpezzataWidget::CreaSpezzataWidget(QWidget *parent) : QWidget(parent)
 {
     setWindowTitle("Crea grafico a torta");
     formLayout = new QFormLayout();
@@ -25,10 +24,9 @@ CreaTortaWidget::CreaTortaWidget(QWidget *parent) : QWidget(parent)
     layout->addLayout(layoutBottoni);
     setLayout(layout);
     setMinimumSize(200,200);
-
 }
 
-void CreaTortaWidget::finestraDiConferma()
+void CreaSpezzataWidget::finestraDiConferma()
 {
     if(!dati.empty() && !dati.begin().key()->text().isEmpty() && !dati.begin().value()->text().isEmpty()){
         QMessageBox *dialogo=new QMessageBox(this);
@@ -40,7 +38,7 @@ void CreaTortaWidget::finestraDiConferma()
         dialogo->addButton(ok,QMessageBox::AcceptRole);
         dialogo->addButton(annulla,QMessageBox::RejectRole);
 
-        connect(ok,SIGNAL(clicked()),this,SLOT(confermaCreazioneTorta()));
+        connect(ok,SIGNAL(clicked()),this,SLOT(confermaCreazioneSpezzata()));
         connect(annulla,SIGNAL(clicked()),dialogo,SLOT(close()));
         dialogo->exec();
     }else{
@@ -49,7 +47,7 @@ void CreaTortaWidget::finestraDiConferma()
 
 }
 
-void CreaTortaWidget::confermaCreazioneTorta()
+void CreaSpezzataWidget::confermaCreazioneSpezzata()
 {
     map<string, double> v;
     bool chiaviDuplicate = false;
@@ -74,7 +72,7 @@ void CreaTortaWidget::confermaCreazioneTorta()
 
 }
 
-void CreaTortaWidget::aggiungiRiga()
+void CreaSpezzataWidget::aggiungiRiga()
 {
         QLineEdit* nome = new QLineEdit();
         nome->setPlaceholderText("inserisci il nome");

@@ -54,17 +54,17 @@ GraficoTorta *GraficiController::getGraficoTorta()
     return graficoTorta;
 }
 
-GraficoLinee *GraficiController::getGraficoLinee()
+GraficoSpezzata *GraficiController::getGraficoLinee()
 {
-    map<string, double> valori;
-    valori["1986"]=16;
-    valori["1987"]=25;
-    valori["1988"]=24;
-    valori["1989"]=19;
-    valori["1990"]=33;
-    valori["1991"]=25;
-    valori["1990"]=19;
-    GraficoLinee* graficoLinee = new GraficoLinee(valori);
+    list<CoordinataSpezzata*> valori;
+    valori.push_back(new CoordinataSpezzata("1986", 16));
+    valori.push_back(new CoordinataSpezzata("1987", 25));
+    valori.push_back(new CoordinataSpezzata("1988", 24));
+    valori.push_back(new CoordinataSpezzata("1989", 19));
+    valori.push_back(new CoordinataSpezzata("1990", 33));
+    valori.push_back(new CoordinataSpezzata("1991", 25));
+    valori.push_back(new CoordinataSpezzata("1992", 19));
+    GraficoSpezzata* graficoLinee = new GraficoSpezzata(valori);
     graficoLinee->setTitolo("grafico linee");
     grafico = graficoLinee;
 
@@ -95,6 +95,14 @@ void GraficiController::creaNuovaTorta(map<std::string, double> valori)
         delete grafico;
     grafico = new GraficoTorta(valori);
     vista->createGraficoTorta();
+}
+
+void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata*>& valori)
+{
+    if(grafico)
+        delete grafico;
+    grafico = new GraficoSpezzata(valori);
+    vista->createGraficoSpezzata();
 }
 
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)

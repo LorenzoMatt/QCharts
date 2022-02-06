@@ -1,13 +1,11 @@
 #include "mainwindow.h"
 #include "graficicontroller.h"
-#include "creatortawidget.h"
+#include "creatortaospezzatawidget.h"
 
 
 //rimuovere il bool, serve solo a fine di test
 QChartView* MainWindow::createGraficoTorta()
 {
-//    if(okay)
-//        controller->getGraficoTorta();
     GraficoTorta* grafico = dynamic_cast<GraficoTorta*>(controller->getGrafico());
 
     double tot = 0;
@@ -69,7 +67,7 @@ void MainWindow::apriEsploraRisorse()
 
 void MainWindow::creaGraficoTorta()
 {
-    CreaTortaWidget* creaTortaWidget = new CreaTortaWidget();
+    CreaTortaOSpezzataWidget* creaTortaWidget = new CreaTortaOSpezzataWidget();
     creaTortaWidget->show();
     connect(creaTortaWidget,SIGNAL(creaTorta(map<std::string, double>)),controller,SLOT(creaNuovaTorta(map<std::string, double>)));
 }
@@ -81,10 +79,14 @@ void MainWindow::creaGraficoBarre()
 }
 
 
+
 void MainWindow::creaGraficoSpezzata()
 {
-    graficoSpezzata = createGraficoLinee();
-    setCentralWidget(graficoSpezzata);
+//    graficoSpezzata = createGraficoSpezzata();
+//    setCentralWidget(graficoSpezzata);
+    CreaTortaOSpezzataWidget* creaSpezzataWidget = new CreaTortaOSpezzataWidget(nullptr, false);
+    creaSpezzataWidget->show();
+    connect(creaSpezzataWidget,SIGNAL(creaSpezzata(const list<CoordinataSpezzata*>&)),controller,SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata*>&)));
 }
 
 
@@ -150,18 +152,17 @@ QChartView* MainWindow::createGraficoBarre()
     return chartView;
 }
 
-QChartView * MainWindow::createGraficoLinee()
+QChartView * MainWindow::createGraficoSpezzata()
 {
-    controller->getGraficoLinee();
-    GraficoLinee* graficoLinee =dynamic_cast<GraficoLinee*>(controller->getGrafico());
-
+    GraficoSpezzata* graficoLinee =dynamic_cast<GraficoSpezzata*>(controller->getGrafico());
+//    GraficoSpezzata* graficoLinee = controller->getGraficoLinee();
     QLineSeries *series = new QLineSeries();
     QCategoryAxis *axisX = new QCategoryAxis();
 
-    unsigned int contatore = 0;
+    unsigned int contatore = 1;
     for (auto it = graficoLinee->getValori().begin();it != graficoLinee->getValori().end();++it) {
-        series->append(contatore, it->second);
-        axisX->append(QString::fromStdString(it->first), contatore);
+        series->append(contatore, (*it)->getValore());
+        axisX->append(QString::fromStdString((*it)->getNome()), contatore);
         contatore++;
     }
     // Create chart, add data, hide legend, and add axis
@@ -172,14 +173,12 @@ QChartView * MainWindow::createGraficoLinee()
 
     // Customize the title font
     QFont font;
-    font.setPixelSize(18);
     chart->setTitleFont(font);
     chart->setTitleBrush(QBrush(Qt::black));
     chart->setTitle(QString::fromStdString(graficoLinee->getTitolo()));
 
     // Change the line color and weight
     QPen pen(QRgb(0x000000));
-    pen.setWidth(5);
     series->setPen(pen);
 
     chart->setAnimationOptions(QChart::AllAnimations);
@@ -191,6 +190,8 @@ QChartView * MainWindow::createGraficoLinee()
     // Used to display the chart
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
+    graficoSpezzata = chartView;
+    setCentralWidget(graficoSpezzata);
     return chartView;
 }
 

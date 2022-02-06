@@ -34,6 +34,14 @@
 // Used to make Pie Charts
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
+
+
+#include <QMenuBar>
+#include <QString>
+
+#include<QFileDialog>
+#include<QStandardPaths>
+
 using namespace QtCharts;
 
 class GraficiController;
@@ -46,17 +54,34 @@ private:
 
 
     //funzioni
-    QChartView *createGraficoBarre();
-    QChartView *creaTorta();
-    QChartView *createGraficoLinee();
-    QChartView * chartView;
+
+    QChartView * graficoTorta;
+    QChartView * graficoSpezzata;
+    QChartView * graficoBarre;
+
+    double calcoloPercentuale(double, double) const;
+
+
+    QMenuBar *creaMenu();
+
     
 public:
-    MainWindow(GraficiController *controller = nullptr, QChartView *chartView = nullptr, QWidget *parent = nullptr);
+    MainWindow(GraficiController *controller = nullptr, QWidget *parent = nullptr);
     ~MainWindow();
     GraficiController *getController() const;
     void setController(GraficiController *newController);
     QChartView *getChartView() const;
     void setChartView(QChartView *newChartView);
+    QChartView *createGraficoBarre();
+    QChartView *createGraficoTorta();
+    QChartView *createGraficoLinee();
+
+private slots:
+    void apriEsploraRisorse();
+    void creaGraficoTorta();
+    void creaGraficoBarre();
+    void creaGraficoSpezzata();
+signals:
+    void carica(const QString&);
 };
 #endif // MAINWINDOW_H

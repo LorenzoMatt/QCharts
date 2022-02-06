@@ -36,6 +36,7 @@ GraficoBarre *GraficiController::getGraficoBarre()
     categorie.push_back("2018");
     graficoBarre->setCategorie(categorie);
     graficoBarre->setTitolo("Grafico a barre");
+    grafico = graficoBarre;
     return graficoBarre;
 }
 
@@ -49,7 +50,7 @@ GraficoTorta *GraficiController::getGraficoTorta()
     fette["Whole Grains"]=.15;
     GraficoTorta* graficoTorta = new GraficoTorta(fette);
     graficoTorta->setTitolo("What Derek Ate this Week");
-
+    grafico = graficoTorta;
     return graficoTorta;
 }
 
@@ -65,6 +66,8 @@ GraficoLinee *GraficiController::getGraficoLinee()
     valori["1990"]=19;
     GraficoLinee* graficoLinee = new GraficoLinee(valori);
     graficoLinee->setTitolo("grafico linee");
+    grafico = graficoLinee;
+
     return graficoLinee;
 }
 
@@ -86,7 +89,15 @@ void GraficiController::setGrafico(GraficoBase *newGrafico)
     grafico = newGrafico;
 }
 
-GraficiController::GraficiController(QObject *parent) : QObject(parent), grafico(nullptr)
+void GraficiController::creaNuovaTorta(map<std::string, double> valori)
+{
+    if(grafico)
+        delete grafico;
+    grafico = new GraficoTorta(valori);
+    vista->createGraficoTorta();
+}
+
+GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)
 {
     vista = new MainWindow(this);
     vista->show();

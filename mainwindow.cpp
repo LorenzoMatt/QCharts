@@ -1,35 +1,39 @@
 #include "mainwindow.h"
 #include "graficicontroller.h"
+#include "creatortawidget.h"
 
-QChartView* MainWindow::creaTorta()
+
+//rimuovere il bool, serve solo a fine di test
+QChartView* MainWindow::createGraficoTorta()
 {
-    GraficoTorta* t = controller->getGraficoTorta();
+//    if(okay)
+//        controller->getGraficoTorta();
+    GraficoTorta* grafico = dynamic_cast<GraficoTorta*>(controller->getGrafico());
 
+    double tot = 0;
+    // calcolo il totale
+    for(auto it = grafico->getFette().begin();it!= grafico->getFette().end(); ++it){
+        tot += it->second;
+    }
     QPieSeries *series = new QPieSeries();
-    for (auto it= t->getFette().begin();it != t->getFette().end();++it) {
-        QPieSlice *slice = new QPieSlice(QString::fromStdString(it->first),it->second);
+    for (auto it= grafico->getFette().begin();it != grafico->getFette().end();++it) {
+        QPieSlice *slice = new QPieSlice(QString::fromStdString(it->first), calcoloPercentuale(it->second, tot));
         series->append(slice);
         slice->setLabelVisible();
-    }
-
-    // Add label, explode and define brush for 2nd slice
-    QPieSlice *slice1 = series->slices().at(1);
-    slice1->setExploded();
-    slice1->setLabelVisible();
-    slice1->setPen(QPen(Qt::darkGreen, 2));
-    slice1->setBrush(Qt::green);
-
+    }    
     // Create the chart widget
     QChart *chart = new QChart();
 
     // Add data to chart with title and hide legend
     chart->addSeries(series);
-    chart->setTitle(QString::fromStdString(t->getTitolo()));
+    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
     chart->legend()->hide();
 
     // Used to display the chart
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
+    graficoTorta = chartView;
+    setCentralWidget(graficoTorta);
     return chartView;
 }
 
@@ -45,17 +49,49 @@ void MainWindow::setController(GraficiController *newController)
 
 QChartView *MainWindow::getChartView() const
 {
-    return chartView;
+    return graficoTorta;
 }
 
 void MainWindow::setChartView(QChartView *newChartView)
 {
-    chartView = newChartView;
+    graficoTorta = newChartView;
 }
+
+void MainWindow::apriEsploraRisorse()
+{
+    QString a=QFileDialog::getOpenFileName(
+                const_cast<MainWindow*>(this),
+                "Seleziona file",
+                QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
+                );
+    emit carica(a);
+}
+
+void MainWindow::creaGraficoTorta()
+{
+    CreaTortaWidget* creaTortaWidget = new CreaTortaWidget();
+    creaTortaWidget->show();
+    connect(creaTortaWidget,SIGNAL(creaTorta(map<std::string, double>)),controller,SLOT(creaNuovaTorta(map<std::string, double>)));
+}
+
+void MainWindow::creaGraficoBarre()
+{
+    graficoBarre = createGraficoBarre();
+    setCentralWidget(graficoBarre);
+}
+
+
+void MainWindow::creaGraficoSpezzata()
+{
+    graficoSpezzata = createGraficoLinee();
+    setCentralWidget(graficoSpezzata);
+}
+
 
 QChartView* MainWindow::createGraficoBarre()
 {
-    GraficoBarre* graficoBarre =controller->getGraficoBarre();
+    controller->getGraficoBarre();
+    GraficoBarre* graficoBarre =dynamic_cast<GraficoBarre*>(controller->getGrafico());
 
     // Add all sets of data to the chart as a whole
     // 1. Bar Chart
@@ -114,9 +150,11 @@ QChartView* MainWindow::createGraficoBarre()
     return chartView;
 }
 
- QChartView * MainWindow::createGraficoLinee()
+QChartView * MainWindow::createGraficoLinee()
 {
-    GraficoLinee* graficoLinee = controller->getGraficoLinee();
+    controller->getGraficoLinee();
+    GraficoLinee* graficoLinee =dynamic_cast<GraficoLinee*>(controller->getGrafico());
+
     QLineSeries *series = new QLineSeries();
     QCategoryAxis *axisX = new QCategoryAxis();
 
@@ -161,22 +199,50 @@ MainWindow::~MainWindow()
 }
 
 
-MainWindow::MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent) : QMainWindow(parent),
-    controller(controller),
-    chartView(chartView)
+double MainWindow::calcoloPercentuale(double valore, double totale) const
 {
+    return valore*100/totale;
+}
 
-    // 3. Line chart example
-    // Other options here https://doc.qt.io/qt-5.11/qtcharts-customchart-example.html
+QMenuBar* MainWindow::creaMenu()
+{
+    QMenuBar* barraMenu=new QMenuBar();
+    QMenu* menu1=new QMenu("File");
+    QMenu* menu2=new QMenu("Guida");
 
-//     chartView= createGraficoLinee();
+    //voci File menu
+    QMenu* menu11=new QMenu("Crea Grafico");
+    QAction* barre=new QAction("Barre");
+    QAction* spezzata=new QAction("Spezzata");
+    QAction* torta=new QAction("Torta");
+    menu11->addAction(barre);
+    menu11->addAction(spezzata);
+    menu11->addAction(torta);
+
+    QAction* carica=new QAction("Carica Grafico");
 
 
-//    chartView = creaTorta();
-    chartView= createGraficoBarre();
-//    GraficoBarre *g = new GraficoBarre();
-//    controller->setGrafico(g);
-    setCentralWidget(chartView);
+    menu1->addMenu(menu11);
+    menu1->addAction(carica);
+    connect(carica,SIGNAL(triggered()),this,SLOT(apriEsploraRisorse()));
+    connect(torta,SIGNAL(triggered()),this,SLOT(creaGraficoTorta()));
+    connect(spezzata,SIGNAL(triggered()),this,SLOT(creaGraficoSpezzata()));
+    connect(barre,SIGNAL(triggered()),this,SLOT(creaGraficoBarre()));
+
+
+
+    barraMenu->addMenu(menu1);
+    barraMenu->addMenu(menu2);
+    return barraMenu;
+}
+
+MainWindow::MainWindow(GraficiController *controller, QWidget *parent) : QMainWindow(parent),
+    controller(controller)
+{
+    QMenuBar* barraMenu =creaMenu();
+    setMenuBar(barraMenu);
+    graficoBarre= createGraficoBarre();
+    setCentralWidget(graficoBarre);
     resize(420, 300);
     show();
 

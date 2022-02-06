@@ -8,21 +8,25 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    creatortawidget.cpp \
     graficicontroller.cpp \
     graficobarre.cpp \
     graficobase.cpp \
     graficolinee.cpp \
     graficotorta.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    utility.cpp
 
 HEADERS += \
+    creatortawidget.h \
     graficicontroller.h \
     graficobarre.h \
     graficobase.h \
     graficolinee.h \
     graficotorta.h \
-    mainwindow.h
+    mainwindow.h \
+    utility.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -28,6 +28,8 @@ public:
     void setGrafico(GraficoBase *newGrafico);
 
 signals:
+public slots:
+    void creaNuovaTorta(map<std::string, double> valori);
 
 };
 

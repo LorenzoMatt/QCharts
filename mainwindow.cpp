@@ -156,8 +156,14 @@ QChartView* MainWindow::createGraficoBarre()
     return chartView;
 }
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::~MainWindow()
+{
+}
+
+
+MainWindow::MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent) : QMainWindow(parent),
+    controller(controller),
+    chartView(chartView)
 {
 
     // 3. Line chart example
@@ -168,18 +174,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    chartView = creaTorta();
     chartView= createGraficoBarre();
+//    GraficoBarre *g = new GraficoBarre();
+//    controller->setGrafico(g);
     setCentralWidget(chartView);
     resize(420, 300);
     show();
+
 }
-
-
-MainWindow::~MainWindow()
-{
-}
-
-
-MainWindow::MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent) : QMainWindow(parent),
-    controller(controller),
-    chartView(chartView)
-{}

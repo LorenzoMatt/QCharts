@@ -10,16 +10,6 @@ void GraficiController::setVista(MainWindow *newVista)
     vista = newVista;
 }
 
-GraficoBase *GraficiController::getGrafico() const
-{
-    return grafico;
-}
-
-void GraficiController::setGrafico(GraficoBase *newGrafico)
-{
-    grafico = newGrafico;
-}
-
 GraficoBarre *GraficiController::getGraficoBarre()
 {
     list<double> dati1;
@@ -34,6 +24,8 @@ GraficoBarre *GraficiController::getGraficoBarre()
 
     dati["Altuve"] = dati1;
     dati["Martinez"] = dati1;
+
+
     GraficoBarre* graficoBarre = new GraficoBarre(dati);
     list<string> categorie;
     categorie.push_back("2013");
@@ -84,14 +76,23 @@ GraficiController::~GraficiController()
         delete grafico;
 }
 
-GraficiController::GraficiController(QObject *parent) : QObject(parent)
+GraficoBase *GraficiController::getGrafico() const
 {
-    vista = new MainWindow();
-    grafico = new GraficoBarre();
+    return grafico;
+}
+
+void GraficiController::setGrafico(GraficoBase *newGrafico)
+{
+    grafico = newGrafico;
+}
+
+GraficiController::GraficiController(QObject *parent) : QObject(parent), grafico(nullptr)
+{
+    vista = new MainWindow(this);
     vista->show();
 }
 
-GraficiController::GraficiController(MainWindow *vista, GraficoBase *grafico, QObject *parent) : QObject(parent),
+GraficiController::GraficiController(MainWindow *vista, GraficoBase* grafico, QObject *parent) : QObject(parent),
     vista(vista),
     grafico(grafico)
 {

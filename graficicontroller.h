@@ -20,11 +20,13 @@ public:
     ~GraficiController();
     MainWindow *getVista() const;
     void setVista(MainWindow *newVista);
-    GraficoBase *getGrafico() const;
-    void setGrafico(GraficoBase *newGrafico);
+
     GraficoBarre* getGraficoBarre();
     GraficoTorta* getGraficoTorta();
     GraficoLinee* getGraficoLinee();
+    GraficoBase *getGrafico() const;
+    void setGrafico(GraficoBase *newGrafico);
+
 signals:
 
 };

@@ -52,8 +52,7 @@ private:
     QChartView * chartView;
     
 public:
-    MainWindow(QWidget *parent = nullptr);
-    MainWindow(GraficiController *controller, QChartView *chartView, QWidget *parent = nullptr);
+    MainWindow(GraficiController *controller = nullptr, QChartView *chartView = nullptr, QWidget *parent = nullptr);
     ~MainWindow();
     GraficiController *getController() const;
     void setController(GraficiController *newController);

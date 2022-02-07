@@ -1,29 +1,30 @@
 #ifndef GRAFICOBARRE_H
 #define GRAFICOBARRE_H
 
+#include "datigraficobarre.h"
 #include "graficobase.h"
-
+#include "utility.h"
+#include <QFile>
 #include <list>
-#include <map>
 
 using std::list;
-using std::map;
 
 class GraficoBarre: public GraficoBase
 {
 private:
-    map<string, list<double>> dati;
     list<string> categorie;
+    list<DatiGraficoBarre*> dati;
+
 public:
     GraficoBarre();
-    GraficoBarre(const map<string, list<double> > &dati);
-    const map<string, list<double> > &getDati() const;
-    void setDati(const map<string, list<double> > &newDati);
-    const list<string> &getCategorie() const;
-    void setCategorie(const list<string> &newCategorie);
+    GraficoBarre(const list<string> &categorie, const list<DatiGraficoBarre *> &dati, string = "Grafico a Barre");
 
     void salva(string) const;
     string getNomeClasse() const;
+    const list<string> &getCategorie() const;
+    void setCategorie(const list<string> &newCategorie);
+    const list<DatiGraficoBarre *> &getDati() const;
+    void setDati(const list<DatiGraficoBarre *> &newDati);
 };
 
 #endif // GRAFICOBARRE_H

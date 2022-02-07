@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "graficicontroller.h"
 #include "creatortaospezzatawidget.h"
+#include "creagraficobarrewidget.h"
 
 
 //rimuovere il bool, serve solo a fine di test
@@ -55,14 +56,26 @@ void MainWindow::setChartView(QChartView *newChartView)
     graficoTorta = newChartView;
 }
 
-void MainWindow::apriEsploraRisorse()
+void MainWindow::apriEsploraRisorseCaricaFile()
 {
-    QString a=QFileDialog::getOpenFileName(
+    QString path=QFileDialog::getOpenFileName(
                 const_cast<MainWindow*>(this),
                 "Seleziona file",
-                QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
+                QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                tr("XML files (*.xml)")
                 );
-    emit carica(a);
+    emit carica(path);
+}
+
+void MainWindow::apriEsploraRisorseSalvaFile()
+{
+    QString path=QFileDialog::getSaveFileName(
+                const_cast<MainWindow*>(this),
+                "Salva file",
+                QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                tr("XML files (*.xml)")
+                );
+    controller->salva(path.toStdString());
 }
 
 void MainWindow::creaGraficoTorta()
@@ -74,8 +87,11 @@ void MainWindow::creaGraficoTorta()
 
 void MainWindow::creaGraficoBarre()
 {
-    graficoBarre = createGraficoBarre();
-    setCentralWidget(graficoBarre);
+//    graficoBarre = createGraficoBarre();
+//    setCentralWidget(graficoBarre);
+    CreaGraficoBarreWidget* creaGraficoBarreWidget = new CreaGraficoBarreWidget();
+    creaGraficoBarreWidget->show();
+    connect(creaGraficoBarreWidget,SIGNAL(creaGraficoBarre(const std::list<string> &,const std::list<DatiGraficoBarre*>&)),controller,SLOT(creaNuovaBarra(const std::list<string> &,const std::list<DatiGraficoBarre*>&)));
 }
 
 
@@ -92,18 +108,16 @@ void MainWindow::creaGraficoSpezzata()
 
 QChartView* MainWindow::createGraficoBarre()
 {
-    controller->getGraficoBarre();
-    GraficoBarre* graficoBarre =dynamic_cast<GraficoBarre*>(controller->getGrafico());
-
+    GraficoBarre* grafico =dynamic_cast<GraficoBarre*>(controller->getGrafico());
     // Add all sets of data to the chart as a whole
     // 1. Bar Chart
     QBarSeries *series = new QBarSeries();
 
     // 2. Stacked bar chart
     // QHorizontalStackedBarSeries *series = new QHorizontalStackedBarSeries();
-    for (auto it = graficoBarre->getDati().begin(); it!=graficoBarre->getDati().end();++it ) {
-        QBarSet* bar = new QBarSet(QString::fromStdString(it->first));
-        list<double> l = it->second;
+    for (auto it = grafico->getDati().begin(); it!=grafico->getDati().end();++it ) {
+        QBarSet* bar = new QBarSet(QString::fromStdString((*it)->getNome()));
+        list<double> l = (*it)->getValori();
         for(auto it2 = l.begin(); it2!= l.end(); ++it2){
             bar->append(*it2);
         }
@@ -118,7 +132,7 @@ QChartView* MainWindow::createGraficoBarre()
     chart->addSeries(series);
 
     // Set title
-    chart->setTitle(QString::fromStdString(graficoBarre->getTitolo()));
+    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
 
     // Define starting animation
     // NoAnimation, GridAxisAnimations, SeriesAnimations
@@ -130,7 +144,7 @@ QChartView* MainWindow::createGraficoBarre()
     // Adds categories to the axes
     QBarCategoryAxis *axis = new QBarCategoryAxis();
     QStringList categories;
-    for(auto it = graficoBarre->getCategorie().begin(); it!= graficoBarre->getCategorie().end(); ++it){
+    for(auto it = grafico->getCategorie().begin(); it!= grafico->getCategorie().end(); ++it){
         categories.append(QString::fromStdString(*it));
     }
     axis->append(categories);
@@ -149,6 +163,9 @@ QChartView* MainWindow::createGraficoBarre()
     // Used to display the chart
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
+    graficoBarre = chartView;
+    setCentralWidget(graficoBarre);
+
     return chartView;
 }
 
@@ -209,9 +226,6 @@ QMenuBar* MainWindow::creaMenu()
 {
     QMenuBar* barraMenu=new QMenuBar();
     QMenu* menu1=new QMenu("File");
-    QMenu* menu2=new QMenu("Guida");
-
-    //voci File menu
     QMenu* menu11=new QMenu("Crea Grafico");
     QAction* barre=new QAction("Barre");
     QAction* spezzata=new QAction("Spezzata");
@@ -221,19 +235,21 @@ QMenuBar* MainWindow::creaMenu()
     menu11->addAction(torta);
 
     QAction* carica=new QAction("Carica Grafico");
+    QAction* salva=new QAction("Salva Grafico");
 
 
     menu1->addMenu(menu11);
     menu1->addAction(carica);
-    connect(carica,SIGNAL(triggered()),this,SLOT(apriEsploraRisorse()));
+    menu1->addAction(salva);
+    connect(carica,SIGNAL(triggered()),this,SLOT(apriEsploraRisorseCaricaFile()));
     connect(torta,SIGNAL(triggered()),this,SLOT(creaGraficoTorta()));
     connect(spezzata,SIGNAL(triggered()),this,SLOT(creaGraficoSpezzata()));
     connect(barre,SIGNAL(triggered()),this,SLOT(creaGraficoBarre()));
+    connect(salva,SIGNAL(triggered()),this,SLOT(apriEsploraRisorseSalvaFile()));
 
 
 
     barraMenu->addMenu(menu1);
-    barraMenu->addMenu(menu2);
     return barraMenu;
 }
 
@@ -242,7 +258,10 @@ MainWindow::MainWindow(GraficiController *controller, QWidget *parent) : QMainWi
 {
     QMenuBar* barraMenu =creaMenu();
     setMenuBar(barraMenu);
-    graficoBarre= createGraficoBarre();
+//    graficoBarre= createGraficoBarre();
+    graficoTorta = new QChartView();
+    graficoSpezzata = new QChartView();
+    graficoBarre = new QChartView();
     setCentralWidget(graficoBarre);
     resize(420, 300);
     show();

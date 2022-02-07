@@ -1,11 +1,13 @@
-#include "creatortaospezzatawidget.h"
+ #include "creatortaospezzatawidget.h"
 #include "utility.h"
 
 
 
 CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool graficoTorta) : QWidget(parent), graficoTorta(graficoTorta)
 {
-    setWindowTitle((&"Crea grafico " [ graficoTorta]) ? "a torta" : "a linee");
+    QString title = "Crea grafico";
+    title = title + (graficoTorta ? " a torta": " a linee");
+    setWindowTitle(title);
     formLayout = new QFormLayout();
     layout = new QVBoxLayout();
     QPushButton* aggiungiRiga = new QPushButton("Aggiungi valori");
@@ -44,7 +46,7 @@ void CreaTortaOSpezzataWidget::finestraDiConferma()
         connect(annulla,SIGNAL(clicked()),dialogo,SLOT(close()));
         dialogo->exec();
     }else{
-        messaggio_errore("Valori non ammessi","Inserire dei valori", this);
+        messaggioErrore("Valori non ammessi","Inserire dei valori", this);
     }
 
 }
@@ -71,7 +73,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
         }
         else
         {
-            messaggio_errore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
+            messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         }
     }
     else {
@@ -83,7 +85,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
                 if((*it2)->getNome()==chiave)
                     chiaviDuplicate = true;
             }
-            if(!chiaviDuplicate){
+            if(!chiaviDuplicate && !chiave.empty()){
                 v.push_back(new CoordinataSpezzata(chiave,valore));
             }
         }
@@ -92,7 +94,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
             close();
         }
         else{
-            messaggio_errore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
+            messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         }
 
     }
@@ -106,7 +108,7 @@ void CreaTortaOSpezzataWidget::aggiungiRiga()
     nome->setPlaceholderText("inserisci il nome");
     QLineEdit* valore = new QLineEdit();
     valore->setPlaceholderText("inserisci il valore");
-    valore->setValidator(new QDoubleValidator(0, 100, 2, this));
+    valore->setValidator(new QDoubleValidator);
     formLayout->addRow(nome, valore);
     dati.push_back(QLineEditPair(nome, valore));
 }

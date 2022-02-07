@@ -28,9 +28,12 @@ public:
     void setGrafico(GraficoBase *newGrafico);
 
 signals:
+
 public slots:
     void creaNuovaTorta(map<std::string, double> valori);
     void creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori);
+    void creaNuovaBarra(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
+    void salva(string path);
 
 
 };

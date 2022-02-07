@@ -9,8 +9,9 @@ class GraficoTorta: public GraficoBase
 private:
     map<string, double> fette;
 public:
+
     GraficoTorta();
-    GraficoTorta(const map<string, double> &fette);
+    GraficoTorta(const map<string, double> &fette, string = "Grafico a Torta");
     const map<string, double> &getFette() const;
     void setFette(const map<string, double> &newFette);
 

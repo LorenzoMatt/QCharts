@@ -12,21 +12,19 @@ void GraficiController::setVista(MainWindow *newVista)
 
 GraficoBarre *GraficiController::getGraficoBarre()
 {
-    list<double> dati1;
-    dati1.push_back(283);
-    dati1.push_back(341);
-    dati1.push_back(313);
-    dati1.push_back(338);
-    dati1.push_back(346);
-    dati1.push_back(335);
+    list<double> valori;
+    list<DatiGraficoBarre*> d;
+    valori.push_back(283);
+    valori.push_back(341);
+    valori.push_back(313);
+    valori.push_back(338);
+    valori.push_back(346);
+    valori.push_back(335);
 
-    map<string, list<double>> dati;
-
-    dati["Altuve"] = dati1;
-    dati["Martinez"] = dati1;
+    d.push_back(new DatiGraficoBarre("Altuve", valori));
+    d.push_back(new DatiGraficoBarre("Martinez", valori));
 
 
-    GraficoBarre* graficoBarre = new GraficoBarre(dati);
     list<string> categorie;
     categorie.push_back("2013");
     categorie.push_back("2014");
@@ -34,7 +32,7 @@ GraficoBarre *GraficiController::getGraficoBarre()
     categorie.push_back("2016");
     categorie.push_back("2017");
     categorie.push_back("2018");
-    graficoBarre->setCategorie(categorie);
+    GraficoBarre* graficoBarre = new GraficoBarre(categorie, d);
     graficoBarre->setTitolo("Grafico a barre");
     grafico = graficoBarre;
     return graficoBarre;
@@ -103,6 +101,20 @@ void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata*>& valor
         delete grafico;
     grafico = new GraficoSpezzata(valori);
     vista->createGraficoSpezzata();
+}
+
+void GraficiController::creaNuovaBarra(const list<string> & categorie, const list<DatiGraficoBarre *> & dati)
+{
+    if(grafico)
+        delete grafico;
+    grafico = new GraficoBarre(categorie, dati);
+    vista->createGraficoBarre();
+}
+
+void GraficiController::salva(string path)
+{
+    if(grafico)
+        grafico->salva(path);
 }
 
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)

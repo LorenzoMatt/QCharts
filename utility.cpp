@@ -1,6 +1,6 @@
 #include "utility.h"
 
-QString  imposta_stile()
+QString  impostaStile()
 {
     QFile file("../style.css");
     file.open(QFile::ReadOnly);
@@ -8,7 +8,7 @@ QString  imposta_stile()
     file.close();
     return styleSheet;
 }
-void messaggio_informativo(const QString& titolo,const QString& testo, QWidget* parent)
+void messaggioInformativo(const QString& titolo,const QString& testo, QWidget* parent)
 {
      QMessageBox* messaggio=new QMessageBox(parent);
      messaggio->setWindowTitle(titolo);
@@ -16,7 +16,7 @@ void messaggio_informativo(const QString& titolo,const QString& testo, QWidget* 
      messaggio->exec();
  }
 
- void messaggio_errore(const QString& titolo,const QString& testo, QWidget* parent)
+ void messaggioErrore(const QString& titolo,const QString& testo, QWidget* parent)
  {
      QErrorMessage* messaggio=new QErrorMessage(parent);
      messaggio->setWindowTitle(titolo);

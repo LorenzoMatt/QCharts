@@ -1,5 +1,7 @@
 QT       += core gui
 QT += charts
+QT += xml
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
 
@@ -9,7 +11,10 @@ CONFIG += c++11
 
 SOURCES += \
     coordinataspezzata.cpp \
+    creagraficobarrewidget.cpp \
     creatortaospezzatawidget.cpp \
+    datigraficobarre.cpp \
+    filereader.cpp \
     graficicontroller.cpp \
     graficobarre.cpp \
     graficobase.cpp \
@@ -21,7 +26,10 @@ SOURCES += \
 
 HEADERS += \
     coordinataspezzata.h \
+    creagraficobarrewidget.h \
     creatortaospezzatawidget.h \
+    datigraficobarre.h \
+    filereader.h \
     graficicontroller.h \
     graficobarre.h \
     graficobase.h \

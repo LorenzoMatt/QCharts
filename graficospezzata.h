@@ -1,6 +1,9 @@
 #ifndef GRAFICOSPEZZATA_H
 #define GRAFICOSPEZZATA_H
 
+#include <QFile>
+#include <QXmlStreamWriter>
+
 #include "graficobase.h"
 #include "coordinataspezzata.h"
 #include<map>
@@ -14,7 +17,7 @@ private:
 public:
     GraficoSpezzata();
     ~GraficoSpezzata();
-    GraficoSpezzata(const list<CoordinataSpezzata *> &valori);
+    GraficoSpezzata(const list<CoordinataSpezzata *> &valori, string = "Grafico a Linee");
     void salva(string) const;
     string getNomeClasse() const;
     const list<CoordinataSpezzata *> &getValori() const;

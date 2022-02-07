@@ -77,7 +77,8 @@ public:
     QChartView *createGraficoSpezzata();
 
 private slots:
-    void apriEsploraRisorse();
+    void apriEsploraRisorseCaricaFile();
+    void apriEsploraRisorseSalvaFile();
     void creaGraficoTorta();
     void creaGraficoBarre();
     void creaGraficoSpezzata();

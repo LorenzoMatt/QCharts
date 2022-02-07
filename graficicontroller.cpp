@@ -117,15 +117,25 @@ void GraficiController::salva(string path)
         grafico->salva(path);
 }
 
+void GraficiController::ottieniGraficoDaFile(const QString &path)
+{
+    grafico = fileReader->ottieniGraficoDaFile(path.toStdString());
+
+}
+
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)
 {
+    fileReader = new FileReader();
     vista = new MainWindow(this);
     vista->show();
+    connect(vista,SIGNAL(carica(const QString&)),this,SLOT(ottieniGraficoDaFile(const QString &)));
 }
 
 GraficiController::GraficiController(MainWindow *vista, GraficoBase* grafico, QObject *parent) : QObject(parent),
     vista(vista),
     grafico(grafico)
 {
+    fileReader = new FileReader();
     vista->show();
+    connect(vista,SIGNAL(carica(const QString&)),this,SLOT(ottieniGraficoDaFile(const QString &)));
 }

@@ -1,12 +1,15 @@
 #ifndef FILEREADER_H
 #define FILEREADER_H
 
-#include "graficobase.h"
+#include "graficotorta.h"
 #include "string"
+#include <map>
 
 #include <QDomDocument>
+#include <QFile>
 
 using std::string;
+using std::map;
 
 class FileReader
 {
@@ -18,7 +21,7 @@ public:
     const string &getPath() const;
     void setPath(const string &newPath);
 
-    GraficoBase* getGraficoFromFile(const std::string &path) const;
+    GraficoBase* ottieniGraficoDaFile(const std::string &path) const;
 };
 
 #endif // FILEREADER_H

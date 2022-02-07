@@ -5,6 +5,7 @@
 #include "graficotorta.h"
 #include "graficospezzata.h"
 #include "graficobarre.h"
+#include "filereader.h"
 
 class MainWindow;
 
@@ -14,6 +15,7 @@ class GraficiController : public QObject
 private:
     MainWindow* vista;
     GraficoBase* grafico;
+    FileReader* fileReader;
 public:
     explicit GraficiController(QObject *parent = nullptr);
     GraficiController(MainWindow *vista, GraficoBase *grafico, QObject *parent = nullptr);
@@ -33,7 +35,8 @@ public slots:
     void creaNuovaTorta(map<std::string, double> valori);
     void creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori);
     void creaNuovaBarra(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
-    void salva(string path);
+    void salva(string);
+    void ottieniGraficoDaFile(const QString&);
 
 
 };

@@ -120,8 +120,14 @@ void GraficiController::salva(string path)
 void GraficiController::ottieniGraficoDaFile(const QString &path)
 {
     grafico = fileReader->ottieniGraficoDaFile(path.toStdString());
-    vista->createGraficoTorta();
-
+    if(grafico){
+        if(dynamic_cast<GraficoTorta*>(grafico))
+            vista->createGraficoTorta();
+        if(dynamic_cast<GraficoBarre*>(grafico))
+            vista->createGraficoBarre();
+        if(dynamic_cast<GraficoSpezzata*>(grafico))
+            vista->createGraficoSpezzata();
+    }
 }
 
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)

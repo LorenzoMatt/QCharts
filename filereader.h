@@ -2,14 +2,20 @@
 #define FILEREADER_H
 
 #include "graficotorta.h"
+#include "coordinataspezzata.h"
+#include "graficospezzata.h"
+
 #include "string"
 #include <map>
-
 #include <QDomDocument>
 #include <QFile>
+#include <list>
+
 
 using std::string;
 using std::map;
+using std::list;
+
 
 class FileReader
 {

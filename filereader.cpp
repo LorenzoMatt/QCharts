@@ -1,6 +1,6 @@
+
 #include "filereader.h"
 #include "utility.h"
-
 
 const string &FileReader::getPath() const
 {
@@ -65,7 +65,36 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string& path) const
                         }
                     }
                     grafico = new GraficoTorta(fette, titolo.toStdString());
-
+                }else{
+                    if(tipo == "Linee"){
+                        nodo=nodo.nextSibling();
+                        elemento = nodo.toElement();
+                        tagName = elemento.tagName();
+                        list<CoordinataSpezzata*> valori;
+                        if(tagName == "valori"){
+                            QDomElement valoriNodi =el.toElement();
+                            QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
+                            for(int i = 0; i<listaValoriNodi.count(); ++i){
+                                QDomElement datoNodo= listaValoriNodi.at(i).toElement();
+                                QString nome;
+                                double valore;
+                                QDomNode elementiDelDato = datoNodo.firstChild();
+                                while (!elementiDelDato.isNull()){
+                                    QDomElement elementoDato=elementiDelDato.toElement(); //che è comento
+                                    QString tagElementoDato = elementoDato.tagName();
+                                    if(tagElementoDato == "nome"){
+                                        nome = elementoDato.text();
+                                    }
+                                    if(tagElementoDato == "valore"){
+                                        valore = std::stod(elementoDato.text().toStdString());
+                                    }
+                                    elementiDelDato = elementiDelDato.nextSibling();
+                                }
+                                valori.push_back(new CoordinataSpezzata(nome.toStdString(), valore));
+                            }
+                        }
+                        grafico = new GraficoSpezzata(valori);
+                    }
                 }
             }else{
                 nodo=nodo.nextSibling();

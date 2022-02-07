@@ -120,6 +120,7 @@ void GraficiController::salva(string path)
 void GraficiController::ottieniGraficoDaFile(const QString &path)
 {
     grafico = fileReader->ottieniGraficoDaFile(path.toStdString());
+    vista->createGraficoTorta();
 
 }
 

@@ -26,54 +26,49 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string& path) const
         if(!documento.setContent(file)){
             return nullptr;
         }
-        QDomElement root = documento.documentElement();//salvo la radice del file
-        QDomNodeList nodes = root.elementsByTagName("grafico");
-        if(nodes.size() == 1)
-        {
-            QDomElement el = nodes.at(0).toElement();
-            QDomNode nodo = el.firstChild();
-            QString tipo, titolo;
-            while (!nodo.isNull()) {
-                QDomElement elemento = nodo.toElement();
-                QString tagName = elemento.tagName();
-                if(tagName == "titolo"){
-                    titolo = elemento.text();
-                }
-                if(tagName == "tipo"){
-                    tipo = elemento.text();
-                    if(tipo == "Torta"){
-                        nodo=nodo.nextSibling();
-                        el = nodo.toElement();
-                        tagName = elemento.tagName();
-                        map<string, double> fette;
-                        if(tagName == "valori"){
-                            QDomElement valoriNodi =el.toElement();
-                            QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
-                            for(int i = 0; i<listaValoriNodi.count(); ++i){
-                                QDomElement datoNodo= listaValoriNodi.at(i).toElement();
-                                QString nome;
-                                double valore;
-                                QDomNode elementiDelDato = datoNodo.firstChild();
-                                while (!elementiDelDato.isNull()){
-                                    QDomElement elementoDato=elementiDelDato.toElement(); //che è comento
-                                    QString tagElementoDato = elementoDato.tagName();
-                                    if(tagElementoDato == "nome"){
-                                        nome = elementoDato.text();
-                                    }
-                                    if(tagElementoDato == "valore"){
-                                        valore = std::stod(elementoDato.text().toStdString());
-                                    }
-                                    elementiDelDato = elementiDelDato.nextSibling();
-                                }
-                                fette[nome.toStdString()]= valore;
-                            }
-                        }
-                        grafico = new GraficoTorta(fette, titolo.toStdString());
-
-                    }
-                }else{
+        QDomElement el = documento.documentElement();//salvo la radice del file
+        QDomNode nodo = el.firstChild();
+        QString tipo, titolo;
+        while (!nodo.isNull()) {
+            QDomElement elemento = nodo.toElement();
+            QString tagName = elemento.tagName();
+            if(tagName == "titolo"){
+                titolo = elemento.text();
+            }
+            if(tagName == "tipo"){
+                tipo = elemento.text();
+                if(tipo == "Torta"){
                     nodo=nodo.nextSibling();
+                    elemento = nodo.toElement();
+                    tagName = elemento.tagName();
+                    map<string, double> fette;
+                    if(tagName == "valori"){
+                        QDomElement valoriNodi =el.toElement();
+                        QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
+                        for(int i = 0; i<listaValoriNodi.count(); ++i){
+                            QDomElement datoNodo= listaValoriNodi.at(i).toElement();
+                            QString nome;
+                            double valore;
+                            QDomNode elementiDelDato = datoNodo.firstChild();
+                            while (!elementiDelDato.isNull()){
+                                QDomElement elementoDato=elementiDelDato.toElement(); //che è comento
+                                QString tagElementoDato = elementoDato.tagName();
+                                if(tagElementoDato == "nome"){
+                                    nome = elementoDato.text();
+                                }
+                                if(tagElementoDato == "valore"){
+                                    valore = std::stod(elementoDato.text().toStdString());
+                                }
+                                elementiDelDato = elementiDelDato.nextSibling();
+                            }
+                            fette[nome.toStdString()]= valore;
+                        }
+                    }
+                    grafico = new GraficoTorta(fette, titolo.toStdString());
+
                 }
+            }else{
+                nodo=nodo.nextSibling();
             }
         }
         file->close();

@@ -11,9 +11,9 @@ void GraficiController::setVista(MainWindow *newVista)
 }
 GraficiController::~GraficiController()
 {
-    if(vista)
+    if (vista)
         delete vista;
-    if(grafico)
+    if (grafico)
         delete grafico;
 }
 
@@ -29,23 +29,23 @@ void GraficiController::setGrafico(GraficoBase *newGrafico)
 
 void GraficiController::creaNuovaTorta(map<std::string, double> valori)
 {
-    if(grafico)
+    if (grafico)
         delete grafico;
     grafico = new GraficoTorta(valori);
     vista->createGraficoTorta();
 }
 
-void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata*>& valori)
+void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori)
 {
-    if(grafico)
+    if (grafico)
         delete grafico;
     grafico = new GraficoSpezzata(valori);
     vista->createGraficoSpezzata();
 }
 
-void GraficiController::creaNuovaBarra(const list<string> & categorie, const list<DatiGraficoBarre *> & dati)
+void GraficiController::creaNuovaBarra(const list<string> &categorie, const list<DatiGraficoBarre *> &dati)
 {
-    if(grafico)
+    if (grafico)
         delete grafico;
     grafico = new GraficoBarre(categorie, dati);
     vista->createGraficoBarre();
@@ -53,32 +53,34 @@ void GraficiController::creaNuovaBarra(const list<string> & categorie, const lis
 
 void GraficiController::salva(string path)
 {
-    if(grafico)
+    if (grafico)
         grafico->salva(path);
 }
 
 void GraficiController::visualizzaGrafico()
 {
-    if(grafico){
-        if(dynamic_cast<GraficoTorta*>(grafico))
+    if (grafico)
+    {
+        if (dynamic_cast<GraficoTorta *>(grafico))
             vista->createGraficoTorta();
-        if(dynamic_cast<GraficoBarre*>(grafico))
+        if (dynamic_cast<GraficoBarre *>(grafico))
             vista->createGraficoBarre();
-        if(dynamic_cast<GraficoSpezzata*>(grafico))
+        if (dynamic_cast<GraficoSpezzata *>(grafico))
             vista->createGraficoSpezzata();
     }
-    else{
+    else
+    {
         vista->setCentralWidget(new QChartView());
     }
 }
 
 void GraficiController::ottieniGraficoDaFile(const QString &path)
 {
-    if(!path.isEmpty()){
+    if (!path.isEmpty())
+    {
         grafico = fileReader->ottieniGraficoDaFile(path.toStdString());
         visualizzaGrafico();
     }
-
 }
 
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)
@@ -86,7 +88,6 @@ GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(n
     fileReader = new FileReader();
     vista = new MainWindow(this);
     vista->show();
-    connect(vista,SIGNAL(carica(const QString&)),this,SLOT(ottieniGraficoDaFile(const QString &)));
+    connect(vista, SIGNAL(carica(const QString &)), this, SLOT(ottieniGraficoDaFile(const QString &)));
     connect(vista, SIGNAL(indietro()), this, SLOT(visualizzaGrafico()));
 }
-

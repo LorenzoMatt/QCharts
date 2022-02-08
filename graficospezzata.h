@@ -6,14 +6,15 @@
 
 #include "graficobase.h"
 #include "coordinataspezzata.h"
-#include<map>
-#include<list>
+#include <map>
+#include <list>
 using std::list;
 
 class GraficoSpezzata : public GraficoBase
 {
 private:
-    list<CoordinataSpezzata*> valori;
+    list<CoordinataSpezzata *> valori;
+
 public:
     GraficoSpezzata();
     ~GraficoSpezzata();

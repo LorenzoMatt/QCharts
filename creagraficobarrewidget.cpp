@@ -1,8 +1,6 @@
 #include "creagraficobarrewidget.h"
 #include "utility.h"
 
-
-
 void CreaGraficoBarreWidget::creaSchermataInserimentoDati()
 {
     row = 0;
@@ -10,13 +8,13 @@ void CreaGraficoBarreWidget::creaSchermataInserimentoDati()
     setWindowTitle(title);
     gridLayoutDatiEditabili = new QGridLayout();
 
-    QPushButton* aggiungiRiga = new QPushButton("Aggiungi valori");
-    QPushButton* salva = new QPushButton("Salva");
-    QPushButton* cancella = new QPushButton("Cancella");
+    QPushButton *aggiungiRiga = new QPushButton("Aggiungi valori");
+    QPushButton *salva = new QPushButton("Salva");
+    QPushButton *cancella = new QPushButton("Cancella");
 
-    connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConfermaDatiEditabili()));
-    connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRigaDatiEditabili()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
+    connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConfermaDatiEditabili()));
+    connect(aggiungiRiga, SIGNAL(clicked()), this, SLOT(aggiungiRigaDatiEditabili()));
+    connect(cancella, SIGNAL(clicked()), this, SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoniDatiEditabiliWidget = new QHBoxLayout();
     layoutBottoniDatiEditabiliWidget->addWidget(aggiungiRiga);
@@ -31,14 +29,15 @@ void CreaGraficoBarreWidget::creaSchermataInserimentoDati()
 
     layoutPrincipale->addLayout(layoutBottoniDatiEditabiliWidget);
 
-    setMinimumSize(200,200);
-
+    setMinimumSize(200, 200);
 }
 
-void CreaGraficoBarreWidget::clearWidgets(QLayout * layout) {
-    if (! layout)
+void CreaGraficoBarreWidget::clearWidgets(QLayout *layout)
+{
+    if (!layout)
         return;
-    while (auto item = layout->takeAt(0)) {
+    while (auto item = layout->takeAt(0))
+    {
         delete item->widget();
         clearWidgets(item->layout());
     }
@@ -46,12 +45,13 @@ void CreaGraficoBarreWidget::clearWidgets(QLayout * layout) {
 
 void CreaGraficoBarreWidget::creaTabellaDatiEditabili()
 {
-    gridLayoutDatiEditabili->addWidget(new QLabel("Nome"),row, 0, Qt::AlignTop);
+    gridLayoutDatiEditabili->addWidget(new QLabel("Nome"), row, 0, Qt::AlignTop);
     int col = 1;
-    for(auto it = categorie.begin(); it != categorie.end(); ++it,++col){
-        QLabel* label = new QLabel(QString::fromStdString(*it));
+    for (auto it = categorie.begin(); it != categorie.end(); ++it, ++col)
+    {
+        QLabel *label = new QLabel(QString::fromStdString(*it));
         label->setAlignment(Qt::AlignCenter);
-        gridLayoutDatiEditabili->addWidget(label,row, col, Qt::AlignTop);
+        gridLayoutDatiEditabili->addWidget(label, row, col, Qt::AlignTop);
     }
     row++;
 }
@@ -62,13 +62,13 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(QWidget *parent)
     QString title = "Inserisci categorie";
     setWindowTitle(title);
     layoutPrincipale = new QVBoxLayout();
-    QPushButton* aggiungiRiga = new QPushButton("Aggiungi valori");
-    QPushButton* salva = new QPushButton("Salva");
-    QPushButton* cancella = new QPushButton("Cancella");
+    QPushButton *aggiungiRiga = new QPushButton("Aggiungi valori");
+    QPushButton *salva = new QPushButton("Salva");
+    QPushButton *cancella = new QPushButton("Cancella");
 
-    connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConfermaCategorie()));
-    connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRigaNuovaCategoria()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
+    connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConfermaCategorie()));
+    connect(aggiungiRiga, SIGNAL(clicked()), this, SLOT(aggiungiRigaNuovaCategoria()));
+    connect(cancella, SIGNAL(clicked()), this, SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoniCategorieWidget = new QHBoxLayout();
     layoutBottoniCategorieWidget->addWidget(aggiungiRiga);
@@ -82,40 +82,39 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(QWidget *parent)
     layoutPrincipale->addLayout(layoutBottoniCategorieWidget);
     setLayout(layoutPrincipale);
 
-    setMinimumSize(200,200);
+    setMinimumSize(200, 200);
 }
 
-CreaGraficoBarreWidget::QLineEditPair::QLineEditPair(QLineEdit * nome, QList<QLineEdit *> valori): nome(nome), valori(valori)
+CreaGraficoBarreWidget::QLineEditPair::QLineEditPair(QLineEdit *nome, QList<QLineEdit *> valori) : nome(nome), valori(valori)
 {
-
 }
-
-
 
 void CreaGraficoBarreWidget::finestraDiConfermaCategorie()
 {
-    if(!categorieEditabili.empty() && !(*categorieEditabili.begin())->text().isEmpty()){
-        QMessageBox *dialogo=new QMessageBox(this);
-        dialogo->setInformativeText ("Confermi le categorie inserite?" );
-        QPushButton* ok=new QPushButton("Conferma");
-        QPushButton* annulla=new QPushButton("Annulla");
+    if (!categorieEditabili.empty() && !(*categorieEditabili.begin())->text().isEmpty())
+    {
+        QMessageBox *dialogo = new QMessageBox(this);
+        dialogo->setInformativeText("Confermi le categorie inserite?");
+        QPushButton *ok = new QPushButton("Conferma");
+        QPushButton *annulla = new QPushButton("Annulla");
         ok->setObjectName("Ok");
         dialogo->setIcon(QMessageBox::Question);
-        dialogo->addButton(ok,QMessageBox::AcceptRole);
-        dialogo->addButton(annulla,QMessageBox::RejectRole);
+        dialogo->addButton(ok, QMessageBox::AcceptRole);
+        dialogo->addButton(annulla, QMessageBox::RejectRole);
 
-        connect(ok,SIGNAL(clicked()),this,SLOT(confermaCreazioneCategorie()));
-        connect(annulla,SIGNAL(clicked()),dialogo,SLOT(close()));
+        connect(ok, SIGNAL(clicked()), this, SLOT(confermaCreazioneCategorie()));
+        connect(annulla, SIGNAL(clicked()), dialogo, SLOT(close()));
         dialogo->exec();
-    }else{
-        messaggioErrore("Valori non ammessi","Inserire dei valori", this);
     }
-
+    else
+    {
+        messaggioErrore("Valori non ammessi", "Inserire dei valori", this);
+    }
 }
 
 void CreaGraficoBarreWidget::aggiungiRigaNuovaCategoria()
 {
-    QLineEdit* nomeCategoria = new QLineEdit();
+    QLineEdit *nomeCategoria = new QLineEdit();
     nomeCategoria->setPlaceholderText("inserisci il nome della categoria");
     categorieEditabili.push_back(nomeCategoria);
     layoutCategorieWidget->addWidget(nomeCategoria);
@@ -123,36 +122,39 @@ void CreaGraficoBarreWidget::aggiungiRigaNuovaCategoria()
 
 void CreaGraficoBarreWidget::finestraDiConfermaDatiEditabili()
 {
-    if(!datiEditabili.empty() && !(*datiEditabili.begin())->nome->text().isEmpty()){
-        QMessageBox *dialogo=new QMessageBox(this);
-        dialogo->setInformativeText ("Confermi le categorie inserite?" );
-        QPushButton* ok=new QPushButton("Conferma");
-        QPushButton* annulla=new QPushButton("Annulla");
+    if (!datiEditabili.empty() && !(*datiEditabili.begin())->nome->text().isEmpty())
+    {
+        QMessageBox *dialogo = new QMessageBox(this);
+        dialogo->setInformativeText("Confermi le categorie inserite?");
+        QPushButton *ok = new QPushButton("Conferma");
+        QPushButton *annulla = new QPushButton("Annulla");
         ok->setObjectName("Ok");
         dialogo->setIcon(QMessageBox::Question);
-        dialogo->addButton(ok,QMessageBox::AcceptRole);
-        dialogo->addButton(annulla,QMessageBox::RejectRole);
+        dialogo->addButton(ok, QMessageBox::AcceptRole);
+        dialogo->addButton(annulla, QMessageBox::RejectRole);
 
-        connect(ok,SIGNAL(clicked()),this,SLOT(confermaCreazioneGraficoBarre()));
-        connect(annulla,SIGNAL(clicked()),dialogo,SLOT(close()));
+        connect(ok, SIGNAL(clicked()), this, SLOT(confermaCreazioneGraficoBarre()));
+        connect(annulla, SIGNAL(clicked()), dialogo, SLOT(close()));
         dialogo->exec();
-    }else{
-        messaggioErrore("Valori non ammessi","Inserire dei valori", this);
     }
-
+    else
+    {
+        messaggioErrore("Valori non ammessi", "Inserire dei valori", this);
+    }
 }
 
 void CreaGraficoBarreWidget::aggiungiRigaDatiEditabili()
 {
-    QList<QLineEdit*> val;
-    QLineEdit* nomeEditabile = new QLineEdit();
+    QList<QLineEdit *> val;
+    QLineEdit *nomeEditabile = new QLineEdit();
 
     nomeEditabile->setPlaceholderText("inserisci nome");
     gridLayoutDatiEditabili->addWidget(nomeEditabile, row, 0, Qt::AlignTop);
 
     int colonna = 1;
-    for(auto it = categorie.begin(); it!= categorie.end(); ++it, ++colonna){
-        QLineEdit* categoriaEditabile = new QLineEdit();
+    for (auto it = categorie.begin(); it != categorie.end(); ++it, ++colonna)
+    {
+        QLineEdit *categoriaEditabile = new QLineEdit();
         categoriaEditabile->setPlaceholderText("inserisci il valore");
         categoriaEditabile->setValidator(new QDoubleValidator);
         gridLayoutDatiEditabili->addWidget(categoriaEditabile, row, colonna, Qt::AlignTop);
@@ -161,7 +163,6 @@ void CreaGraficoBarreWidget::aggiungiRigaDatiEditabili()
     row++;
 
     datiEditabili.push_back(new QLineEditPair(nomeEditabile, val));
-
 }
 
 void CreaGraficoBarreWidget::cancellaCreazioneGrafico()
@@ -172,36 +173,42 @@ void CreaGraficoBarreWidget::cancellaCreazioneGrafico()
 void CreaGraficoBarreWidget::confermaCreazioneCategorie()
 {
     bool chiaviDuplicate = false;
-    for(auto it = categorieEditabili.begin();it!= categorieEditabili.end() && !chiaviDuplicate; ++it){
+    for (auto it = categorieEditabili.begin(); it != categorieEditabili.end() && !chiaviDuplicate; ++it)
+    {
         string categoria = (*it)->text().toStdString();
-        for(auto it2 = categorie.begin(); it2!= categorie.end() && !chiaviDuplicate; ++it2){
-            if((*it2) == categoria)
+        for (auto it2 = categorie.begin(); it2 != categorie.end() && !chiaviDuplicate; ++it2)
+        {
+            if ((*it2) == categoria)
                 chiaviDuplicate = true;
         }
-        if(!chiaviDuplicate && !categoria.empty()){
+        if (!chiaviDuplicate && !categoria.empty())
+        {
             categorie.push_back(categoria);
         }
     }
-    if(!chiaviDuplicate){
+    if (!chiaviDuplicate)
+    {
         creaSchermataInserimentoDati();
     }
-    else{
-        messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
+    else
+    {
+        messaggioErrore("Valori duplicati", "Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         categorie.clear();
     }
-
-
 }
 
 void CreaGraficoBarreWidget::confermaCreazioneGraficoBarre()
 {
-    list<DatiGraficoBarre*> dati;
-    for(auto it = datiEditabili.begin(); it!= datiEditabili.end(); ++it){
+    list<DatiGraficoBarre *> dati;
+    for (auto it = datiEditabili.begin(); it != datiEditabili.end(); ++it)
+    {
         string nome = ((*it)->nome->text()).toStdString();
         list<double> valoriInseriti;
-        QList<QLineEdit*> valoriList = (*it)->valori;
-        if(!nome.empty()){
-            for(auto it2 = valoriList.begin(); it2 != valoriList.end(); ++it2){
+        QList<QLineEdit *> valoriList = (*it)->valori;
+        if (!nome.empty())
+        {
+            for (auto it2 = valoriList.begin(); it2 != valoriList.end(); ++it2)
+            {
                 valoriInseriti.push_back((*it2)->text().toDouble());
             }
         }
@@ -209,5 +216,4 @@ void CreaGraficoBarreWidget::confermaCreazioneGraficoBarre()
     }
     emit creaGraficoBarre(categorie, dati);
     close();
-
 }

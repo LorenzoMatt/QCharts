@@ -12,14 +12,12 @@ void GraficoBase::setTitolo(const string &newTitolo)
 
 GraficoBase::GraficoBase()
 {
-
-
 }
 
 GraficoBase::~GraficoBase()
 {
-
 }
 
 GraficoBase::GraficoBase(const string &titolo) : titolo(titolo)
-{}
+{
+}

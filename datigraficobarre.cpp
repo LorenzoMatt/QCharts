@@ -22,9 +22,9 @@ void DatiGraficoBarre::setValori(const list<double> &newValori)
 
 DatiGraficoBarre::DatiGraficoBarre()
 {
-
 }
 
 DatiGraficoBarre::DatiGraficoBarre(const string &nome, const list<double> &valori) : nome(nome),
-    valori(valori)
-{}
+                                                                                     valori(valori)
+{
+}

@@ -1,15 +1,15 @@
 #ifndef GRAFICOTORTA_H
 #define GRAFICOTORTA_H
-#include<graficobase.h>
-#include<map>
+#include <graficobase.h>
+#include <map>
 using std::map;
 
-class GraficoTorta: public GraficoBase
+class GraficoTorta : public GraficoBase
 {
 private:
     map<string, double> fette;
-public:
 
+public:
     GraficoTorta();
     GraficoTorta(const map<string, double> &fette, string = "Grafico a Torta");
     const map<string, double> &getFette() const;

@@ -12,6 +12,7 @@ class DatiGraficoBarre
 private:
     string nome;
     list<double> valori;
+
 public:
     DatiGraficoBarre();
     DatiGraficoBarre(const string &nome, const list<double> &valori);

@@ -1,7 +1,7 @@
 #ifndef GRAFICICONTROLLER_H
 #define GRAFICICONTROLLER_H
 #include <QObject>
-#include<mainwindow.h>
+#include <mainwindow.h>
 #include "graficotorta.h"
 #include "graficospezzata.h"
 #include "graficobarre.h"
@@ -13,9 +13,10 @@ class GraficiController : public QObject
 {
     Q_OBJECT
 private:
-    MainWindow* vista;
-    GraficoBase* grafico;
-    FileReader* fileReader;
+    MainWindow *vista;
+    GraficoBase *grafico;
+    FileReader *fileReader;
+
 public:
     explicit GraficiController(QObject *parent = nullptr);
     ~GraficiController();
@@ -24,18 +25,15 @@ public:
     GraficoBase *getGrafico() const;
     void setGrafico(GraficoBase *newGrafico);
 
-
 signals:
 
 public slots:
     void creaNuovaTorta(map<std::string, double> valori);
     void creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori);
-    void creaNuovaBarra(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
+    void creaNuovaBarra(const std::list<string> &, const std::list<DatiGraficoBarre *> &);
     void salva(string);
-    void ottieniGraficoDaFile(const QString&);
+    void ottieniGraficoDaFile(const QString &);
     void visualizzaGrafico();
-
-
 };
 
 #endif // GRAFICICONTROLLER_H

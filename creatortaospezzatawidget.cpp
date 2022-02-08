@@ -1,22 +1,20 @@
- #include "creatortaospezzatawidget.h"
+#include "creatortaospezzatawidget.h"
 #include "utility.h"
-
-
 
 CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool graficoTorta) : QWidget(parent), graficoTorta(graficoTorta)
 {
     QString title = "Crea grafico";
-    title = title + (graficoTorta ? " a torta": " a linee");
+    title = title + (graficoTorta ? " a torta" : " a linee");
     setWindowTitle(title);
     formLayout = new QFormLayout();
     layout = new QVBoxLayout();
-    QPushButton* aggiungiRiga = new QPushButton("Aggiungi valori");
-    QPushButton* salva = new QPushButton("Salva");
-    QPushButton* cancella = new QPushButton("Cancella");
+    QPushButton *aggiungiRiga = new QPushButton("Aggiungi valori");
+    QPushButton *salva = new QPushButton("Salva");
+    QPushButton *cancella = new QPushButton("Cancella");
 
-    connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConferma()));
-    connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRiga()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
+    connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConferma()));
+    connect(aggiungiRiga, SIGNAL(clicked()), this, SLOT(aggiungiRiga()));
+    connect(cancella, SIGNAL(clicked()), this, SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoni = new QHBoxLayout();
     layoutBottoni->addWidget(aggiungiRiga);
@@ -26,40 +24,44 @@ CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool grafico
     layout->addLayout(formLayout);
     layout->addLayout(layoutBottoni);
     setLayout(layout);
-    setMinimumSize(200,200);
-
+    setMinimumSize(200, 200);
 }
 
 void CreaTortaOSpezzataWidget::finestraDiConferma()
 {
-    if(!dati.empty() && !dati.begin()->nome->text().isEmpty() && !dati.begin()->valore->text().isEmpty()){
-        QMessageBox *dialogo=new QMessageBox(this);
-        dialogo->setInformativeText ("Confermi la creazione del grafico con i dati inseriti?" );
-        QPushButton* ok=new QPushButton("Conferma");
-        QPushButton* annulla=new QPushButton("Annulla");
+    if (!dati.empty() && !dati.begin()->nome->text().isEmpty() && !dati.begin()->valore->text().isEmpty())
+    {
+        QMessageBox *dialogo = new QMessageBox(this);
+        dialogo->setInformativeText("Confermi la creazione del grafico con i dati inseriti?");
+        QPushButton *ok = new QPushButton("Conferma");
+        QPushButton *annulla = new QPushButton("Annulla");
         ok->setObjectName("Ok");
         dialogo->setIcon(QMessageBox::Question);
-        dialogo->addButton(ok,QMessageBox::AcceptRole);
-        dialogo->addButton(annulla,QMessageBox::RejectRole);
+        dialogo->addButton(ok, QMessageBox::AcceptRole);
+        dialogo->addButton(annulla, QMessageBox::RejectRole);
 
-        connect(ok,SIGNAL(clicked()),this,SLOT(confermaCreazione()));
-        connect(annulla,SIGNAL(clicked()),dialogo,SLOT(close()));
+        connect(ok, SIGNAL(clicked()), this, SLOT(confermaCreazione()));
+        connect(annulla, SIGNAL(clicked()), dialogo, SLOT(close()));
         dialogo->exec();
-    }else{
-        messaggioErrore("Valori non ammessi","Inserire dei valori", this);
     }
-
+    else
+    {
+        messaggioErrore("Valori non ammessi", "Inserire dei valori", this);
+    }
 }
 
 void CreaTortaOSpezzataWidget::confermaCreazione()
 {
     bool chiaviDuplicate = false;
 
-    if(graficoTorta){
+    if (graficoTorta)
+    {
         map<string, double> v;
-        for(auto it = dati.begin();it!= dati.end() && !chiaviDuplicate; ++it){
+        for (auto it = dati.begin(); it != dati.end() && !chiaviDuplicate; ++it)
+        {
             string chiave = it->nome->text().toStdString();
-            if(v.count(chiave) == 0){
+            if (v.count(chiave) == 0)
+            {
                 v[chiave] = it->valore->text().toDouble();
             }
             else
@@ -67,43 +69,50 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
                 chiaviDuplicate = true;
             }
         }
-        if(!chiaviDuplicate){
+        if (!chiaviDuplicate)
+        {
             emit creaTorta(v);
             close();
         }
         else
         {
-            messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
+            messaggioErrore("Valori duplicati", "Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         }
     }
-    else {
-        list<CoordinataSpezzata*> v;
-        for(auto it = dati.begin();it!= dati.end() && !chiaviDuplicate; ++it){
+    else
+    {
+        list<CoordinataSpezzata *> v;
+        for (auto it = dati.begin(); it != dati.end() && !chiaviDuplicate; ++it)
+        {
             string chiave = it->nome->text().toStdString();
             double valore = it->valore->text().toDouble();
-            for(auto it2 = v.begin(); it2!= v.end() && !chiaviDuplicate; ++it2){
-                if((*it2)->getNome()==chiave)
+            for (auto it2 = v.begin(); it2 != v.end() && !chiaviDuplicate; ++it2)
+            {
+                if ((*it2)->getNome() == chiave)
                     chiaviDuplicate = true;
             }
-            if(!chiaviDuplicate && !chiave.empty()){
-                v.push_back(new CoordinataSpezzata(chiave,valore));
+            if (!chiaviDuplicate && !chiave.empty())
+            {
+                v.push_back(new CoordinataSpezzata(chiave, valore));
             }
         }
-        if(!chiaviDuplicate){
+        if (!chiaviDuplicate)
+        {
             emit creaSpezzata(v);
             close();
         }
-        else{
-            messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
+        else
+        {
+            messaggioErrore("Valori duplicati", "Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         }
     }
 }
 
 void CreaTortaOSpezzataWidget::aggiungiRiga()
 {
-    QLineEdit* nome = new QLineEdit();
+    QLineEdit *nome = new QLineEdit();
     nome->setPlaceholderText("inserisci il nome");
-    QLineEdit* valore = new QLineEdit();
+    QLineEdit *valore = new QLineEdit();
     valore->setPlaceholderText("inserisci il valore");
     valore->setValidator(new QDoubleValidator);
     formLayout->addRow(nome, valore);
@@ -115,6 +124,6 @@ void CreaTortaOSpezzataWidget::cancellaCreazioneGrafico()
     emit cancella();
 }
 
-CreaTortaOSpezzataWidget::QLineEditPair::QLineEditPair(QLineEdit * nome, QLineEdit *valore): nome(nome), valore(valore)
+CreaTortaOSpezzataWidget::QLineEditPair::QLineEditPair(QLineEdit *nome, QLineEdit *valore) : nome(nome), valore(valore)
 {
 }

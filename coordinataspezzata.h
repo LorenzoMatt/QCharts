@@ -9,6 +9,7 @@ class CoordinataSpezzata
 private:
     string nome;
     double valore;
+
 public:
     CoordinataSpezzata();
     CoordinataSpezzata(const string &nome, double valore);

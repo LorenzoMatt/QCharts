@@ -20,38 +20,36 @@ class CreaGraficoBarreWidget : public QWidget
 {
     Q_OBJECT
 private:
-
     list<string> categorie;
-    QList<QLineEdit*> categorieEditabili;
-    QVBoxLayout* layoutPrincipale;
-    QVBoxLayout* layoutCategorieWidget;
+    QList<QLineEdit *> categorieEditabili;
+    QVBoxLayout *layoutPrincipale;
+    QVBoxLayout *layoutCategorieWidget;
 
-    QHBoxLayout* layoutBottoniCategorieWidget;
+    QHBoxLayout *layoutBottoniCategorieWidget;
 
-    QGridLayout* gridLayoutDatiEditabili;
+    QGridLayout *gridLayoutDatiEditabili;
 
     void creaSchermataInserimentoDati();
 
     void creaTabellaDatiEditabili();
 
-    void clearWidgets(QLayout*);
+    void clearWidgets(QLayout *);
 
     int row;
 
-
-    class QLineEditPair{
+    class QLineEditPair
+    {
     public:
-        QLineEditPair(QLineEdit*,QList<QLineEdit*>);
-        QLineEdit* nome;
-        QList<QLineEdit*> valori;
+        QLineEditPair(QLineEdit *, QList<QLineEdit *>);
+        QLineEdit *nome;
+        QList<QLineEdit *> valori;
     };
-    QList<QLineEditPair*> datiEditabili;
+    QList<QLineEditPair *> datiEditabili;
 
-    QHBoxLayout* layoutBottoniDatiEditabiliWidget;
+    QHBoxLayout *layoutBottoniDatiEditabiliWidget;
 
 public:
     explicit CreaGraficoBarreWidget(QWidget *parent = nullptr);
-
 
 private slots:
     void finestraDiConfermaCategorie();
@@ -62,9 +60,8 @@ private slots:
     void aggiungiRigaDatiEditabili();
     void cancellaCreazioneGrafico();
 signals:
-    void creaGraficoBarre(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
+    void creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &);
     void cancella();
-
 };
 
 #endif // CREAGRAFICOBARREWIDGET_H

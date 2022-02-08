@@ -1,17 +1,18 @@
 #ifndef GRAFICOBASE_H
 #define GRAFICOBASE_H
 
-#include<string>
+#include <string>
 using std::string;
 
 class GraficoBase
 {
 private:
     string titolo;
+
 public:
     GraficoBase();
     GraficoBase(const string &titolo);
-    virtual ~ GraficoBase();
+    virtual ~GraficoBase();
     virtual void salva(string) const = 0;
     virtual string getNomeClasse() const = 0;
     const string &getTitolo() const;

@@ -22,9 +22,9 @@ void CoordinataSpezzata::setValore(double newValore)
 
 CoordinataSpezzata::CoordinataSpezzata()
 {
-
 }
 
 CoordinataSpezzata::CoordinataSpezzata(const string &nome, double valore) : nome(nome),
-    valore(valore)
-{}
+                                                                            valore(valore)
+{
+}

@@ -71,7 +71,7 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string& path) const
                         elemento = nodo.toElement();
                         tagName = elemento.tagName();
                         list<CoordinataSpezzata*> valori;
-                        if(tagName == "valori"){
+                        if(tagName == "dati"){
                             QDomElement valoriNodi =el.toElement();
                             QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
                             for(int i = 0; i<listaValoriNodi.count(); ++i){
@@ -94,6 +94,53 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string& path) const
                             }
                         }
                         grafico = new GraficoSpezzata(valori);
+                    }
+                    else{
+                        if(tipo == "Barre"){
+                            nodo=nodo.nextSibling();
+                            elemento = nodo.toElement();
+                            tagName = elemento.tagName();
+                            list<string> categorie;
+                            list<DatiGraficoBarre*> dati;
+                            if(tagName == "categorie"){
+                                QDomElement categorieNodi =el.toElement();
+                                QDomNodeList listaValoriNodi =categorieNodi.elementsByTagName("categoria");
+                                for(int i = 0; i<listaValoriNodi.count(); ++i){
+                                    categorie.push_back(listaValoriNodi.at(i).toElement().text().toStdString());
+                                }
+                            }
+                            nodo=nodo.nextSibling();
+                            elemento = nodo.toElement();
+                            tagName = elemento.tagName();
+                            if(tagName == "dati"){
+                                QDomElement valoriNodi =el.toElement();
+                                QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
+                                for(int i = 0; i<listaValoriNodi.count(); ++i){
+                                    QDomElement datoNodo= listaValoriNodi.at(i).toElement();
+                                    QString nome;
+                                    list<double> valori;
+                                    QDomNode elementiDelDato = datoNodo.firstChild();
+                                    while (!elementiDelDato.isNull()){
+                                        QDomElement elementoDato=elementiDelDato.toElement(); //che è comento
+                                        QString tagElementoDato = elementoDato.tagName();
+                                        if(tagElementoDato == "nome"){
+                                            nome = elementoDato.text();
+                                        }
+                                        if(tagElementoDato == "valori"){
+                                            QDomElement valoreElemento=datoNodo.toElement();
+                                            QDomNodeList listaValoriElemento =valoreElemento.elementsByTagName("valore");
+                                            for(int x=0; x<listaValoriElemento.count(); ++x)
+                                            {
+                                                valori.push_back(listaValoriElemento.at(x).toElement().text().toDouble());
+                                            }
+                                        }
+                                        elementiDelDato = elementiDelDato.nextSibling();
+                                    }
+                                    dati.push_back(new DatiGraficoBarre(nome.toStdString(), valori));
+                                }
+                            }
+                            grafico = new GraficoBarre(categorie,dati);
+                        }
                     }
                 }
             }else{

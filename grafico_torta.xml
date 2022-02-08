@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grafico>
+    <titolo>Grafico a Torta</titolo>
+    <tipo>Torta</tipo>
+    <valori>
+        <dato>
+            <nome>33</nome>
+            <valore>33.000000</valore>
+        </dato>
+        <dato>
+            <nome>333</nome>
+            <valore>33.000000</valore>
+        </dato>
+        <dato>
+            <nome>rr</nome>
+            <valore>65.000000</valore>
+        </dato>
+    </valori>
+</grafico>

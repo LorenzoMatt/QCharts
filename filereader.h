@@ -4,6 +4,9 @@
 #include "graficotorta.h"
 #include "coordinataspezzata.h"
 #include "graficospezzata.h"
+#include "datigraficobarre.h"
+#include "graficobarre.h"
+
 
 #include "string"
 #include <map>

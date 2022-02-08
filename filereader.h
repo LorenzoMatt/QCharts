@@ -24,12 +24,17 @@ class FileReader
 {
 private:
     string path;
+    GraficoTorta *estraiDatiTorta(QDomNode nodo, QString tipo, QString titolo, QDomElement el) const;
+
+    GraficoSpezzata *estraiGraficoSpezzate(QDomNode nodo, QString tipo, QString titolo, QDomElement el) const;
+
+    GraficoBarre *estraiGraficoBarre(QDomNode nodo, QString tipo,QString titolo, QDomElement el) const;
+
 public:
     FileReader();
     FileReader(const string &path);
     const string &getPath() const;
     void setPath(const string &newPath);
-
     GraficoBase* ottieniGraficoDaFile(const std::string &path) const;
 };
 

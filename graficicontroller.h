@@ -18,16 +18,12 @@ private:
     FileReader* fileReader;
 public:
     explicit GraficiController(QObject *parent = nullptr);
-    GraficiController(MainWindow *vista, GraficoBase *grafico, QObject *parent = nullptr);
     ~GraficiController();
     MainWindow *getVista() const;
     void setVista(MainWindow *newVista);
-
-    GraficoBarre* getGraficoBarre();
-    GraficoTorta* getGraficoTorta();
-    GraficoSpezzata* getGraficoLinee();
     GraficoBase *getGrafico() const;
     void setGrafico(GraficoBase *newGrafico);
+
 
 signals:
 
@@ -37,6 +33,7 @@ public slots:
     void creaNuovaBarra(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
     void salva(string);
     void ottieniGraficoDaFile(const QString&);
+    void visualizzaGrafico();
 
 
 };

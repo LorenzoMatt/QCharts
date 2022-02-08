@@ -71,7 +71,7 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string& path) const
                         elemento = nodo.toElement();
                         tagName = elemento.tagName();
                         list<CoordinataSpezzata*> valori;
-                        if(tagName == "dati"){
+                        if(tagName == "valori"){
                             QDomElement valoriNodi =el.toElement();
                             QDomNodeList listaValoriNodi =valoriNodi.elementsByTagName("dato");
                             for(int i = 0; i<listaValoriNodi.count(); ++i){

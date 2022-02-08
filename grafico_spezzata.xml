@@ -4,20 +4,24 @@
     <tipo>Linee</tipo>
     <valori>
         <dato>
-            <nome>ff</nome>
-            <valore>33.000000</valore>
-        </dato>
-        <dato>
-            <nome>aa</nome>
-            <valore>90.000000</valore>
-        </dato>
-        <dato>
-            <nome>dd</nome>
-            <valore>66.000000</valore>
-        </dato>
-        <dato>
             <nome>ee</nome>
-            <valore>200.000000</valore>
+            <valore>55.000000</valore>
+        </dato>
+        <dato>
+            <nome>hh</nome>
+            <valore>11.000000</valore>
+        </dato>
+        <dato>
+            <nome>88</nome>
+            <valore>77.000000</valore>
+        </dato>
+        <dato>
+            <nome>33</nome>
+            <valore>10.000000</valore>
+        </dato>
+        <dato>
+            <nome>e88</nome>
+            <valore>100.000000</valore>
         </dato>
     </valori>
 </grafico>

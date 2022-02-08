@@ -16,7 +16,7 @@ void CreaGraficoBarreWidget::creaSchermataInserimentoDati()
 
     connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConfermaDatiEditabili()));
     connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRigaDatiEditabili()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(close()));
+    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoniDatiEditabiliWidget = new QHBoxLayout();
     layoutBottoniDatiEditabiliWidget->addWidget(aggiungiRiga);
@@ -46,24 +46,6 @@ void CreaGraficoBarreWidget::clearWidgets(QLayout * layout) {
 
 void CreaGraficoBarreWidget::creaTabellaDatiEditabili()
 {
-    //    tabellaDatiEditabili=new QTableWidget();
-    //    tabellaDatiEditabili->setColumnCount(categorie.size() + 1);
-    //    tabellaDatiEditabili->setRowCount(1);
-    //    QStringList *horizontalheader=new QStringList();
-    //    horizontalheader->append("Nome");
-    //    for(auto it = categorie.begin(); it != categorie.end(); ++it){
-    //        horizontalheader->append(QString::fromStdString(*it));
-    //    }
-    ////    tabellaDatiEditabili->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    //    tabellaDatiEditabili->setHorizontalHeaderLabels(*horizontalheader);
-    //    tabellaDatiEditabili->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //    QHeaderView* header = tabellaDatiEditabili->horizontalHeader();// adatta la larghezza delle colonne
-    //    header->setSectionResizeMode(QHeaderView::Stretch);// adatta la larghezza delle colonne
-    //    tabellaDatiEditabili->setMaximumHeight(400);
-
-    //    layoutDatiEditabiliWidget->addWidget(tabellaDatiEditabili);
-
-    //    aggiungiRigaDatiEditabili(false);
     gridLayoutDatiEditabili->addWidget(new QLabel("Nome"),row, 0, Qt::AlignTop);
     int col = 1;
     for(auto it = categorie.begin(); it != categorie.end(); ++it,++col){
@@ -72,9 +54,6 @@ void CreaGraficoBarreWidget::creaTabellaDatiEditabili()
         gridLayoutDatiEditabili->addWidget(label,row, col, Qt::AlignTop);
     }
     row++;
-
-
-
 }
 
 CreaGraficoBarreWidget::CreaGraficoBarreWidget(QWidget *parent)
@@ -89,7 +68,7 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(QWidget *parent)
 
     connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConfermaCategorie()));
     connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRigaNuovaCategoria()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(close()));
+    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoniCategorieWidget = new QHBoxLayout();
     layoutBottoniCategorieWidget->addWidget(aggiungiRiga);
@@ -165,25 +144,6 @@ void CreaGraficoBarreWidget::finestraDiConfermaDatiEditabili()
 
 void CreaGraficoBarreWidget::aggiungiRigaDatiEditabili()
 {
-    //    if(insert)
-    //        tabellaDatiEditabili->insertRow(1);
-    //    QList<QLineEdit*> val;
-    //    QLineEdit* nomeEditabile = new QLineEdit();
-
-    //    nomeEditabile->setPlaceholderText("inserisci nome");
-    //    int row = tabellaDatiEditabili->rowCount() -1;
-    //    tabellaDatiEditabili->setCellWidget(row , 0, nomeEditabile);
-    //    int colonna = 1;
-    //    for(auto it = categorie.begin(); it!= categorie.end(); ++it, ++colonna){
-    //        QLineEdit* categoriaEditabile = new QLineEdit();
-    //        categoriaEditabile->setPlaceholderText("inserisci il valore");
-    //        categoriaEditabile->setValidator(new QDoubleValidator);
-    //        tabellaDatiEditabili->setCellWidget(row, colonna, categoriaEditabile);
-    //        val.push_back(categoriaEditabile);
-    //    }
-
-    //    //    datiEditabili.push_back(new QLineEditPair(nomeEditabile, val));
-
     QList<QLineEdit*> val;
     QLineEdit* nomeEditabile = new QLineEdit();
 
@@ -202,6 +162,11 @@ void CreaGraficoBarreWidget::aggiungiRigaDatiEditabili()
 
     datiEditabili.push_back(new QLineEditPair(nomeEditabile, val));
 
+}
+
+void CreaGraficoBarreWidget::cancellaCreazioneGrafico()
+{
+    emit cancella();
 }
 
 void CreaGraficoBarreWidget::confermaCreazioneCategorie()

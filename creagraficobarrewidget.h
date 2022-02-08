@@ -60,8 +60,10 @@ private slots:
     void aggiungiRigaNuovaCategoria();
     void finestraDiConfermaDatiEditabili();
     void aggiungiRigaDatiEditabili();
+    void cancellaCreazioneGrafico();
 signals:
     void creaGraficoBarre(const std::list<string> &,const std::list<DatiGraficoBarre*>&);
+    void cancella();
 
 };
 

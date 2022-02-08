@@ -59,6 +59,7 @@ private:
     QChartView * graficoSpezzata;
     QChartView * graficoBarre;
 
+
     double calcoloPercentuale(double, double) const;
 
 
@@ -70,11 +71,14 @@ public:
     ~MainWindow();
     GraficiController *getController() const;
     void setController(GraficiController *newController);
-    QChartView *getChartView() const;
     void setChartView(QChartView *newChartView);
-    QChartView *createGraficoBarre();
-    QChartView *createGraficoTorta();
-    QChartView *createGraficoSpezzata();
+    void createGraficoBarre();
+    void createGraficoTorta();
+    void createGraficoSpezzata();
+
+    QChartView *getGraficoTorta() const;
+    QChartView *getGraficoSpezzata() const;
+    QChartView *getGraficoBarre() const;
 
 private slots:
     void apriEsploraRisorseCaricaFile();
@@ -82,7 +86,9 @@ private slots:
     void creaGraficoTorta();
     void creaGraficoBarre();
     void creaGraficoSpezzata();
+    void tornaIndietro();
 signals:
     void carica(const QString&);
+    void indietro();
 };
 #endif // MAINWINDOW_H

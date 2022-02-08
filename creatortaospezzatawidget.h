@@ -41,11 +41,13 @@ public:
 signals:
     void creaTorta(map<std::string, double>);
     void creaSpezzata(const list<CoordinataSpezzata*>&);
+    void cancella();
 
 private slots:
     void finestraDiConferma();
     void confermaCreazione();
     void aggiungiRiga();
+    void cancellaCreazioneGrafico();
 
 };
 

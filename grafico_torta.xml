@@ -4,16 +4,20 @@
     <tipo>Torta</tipo>
     <valori>
         <dato>
-            <nome>33</nome>
-            <valore>33.000000</valore>
+            <nome>ff</nome>
+            <valore>22.000000</valore>
         </dato>
         <dato>
-            <nome>333</nome>
-            <valore>33.000000</valore>
+            <nome>ll</nome>
+            <valore>44.000000</valore>
         </dato>
         <dato>
-            <nome>rr</nome>
-            <valore>65.000000</valore>
+            <nome>mm</nome>
+            <valore>44.000000</valore>
+        </dato>
+        <dato>
+            <nome>tt</nome>
+            <valore>88.000000</valore>
         </dato>
     </valori>
 </grafico>

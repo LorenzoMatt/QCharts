@@ -16,7 +16,7 @@ CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool grafico
 
     connect(salva,SIGNAL(clicked()),this,SLOT(finestraDiConferma()));
     connect(aggiungiRiga,SIGNAL(clicked()),this,SLOT(aggiungiRiga()));
-    connect(cancella,SIGNAL(clicked()),this,SLOT(close()));
+    connect(cancella,SIGNAL(clicked()),this,SLOT(cancellaCreazioneGrafico()));
 
     layoutBottoni = new QHBoxLayout();
     layoutBottoni->addWidget(aggiungiRiga);
@@ -96,10 +96,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
         else{
             messaggioErrore("Valori duplicati","Ci sono valori duplicati, è necessario cambiare il testo delle categorie", this);
         }
-
     }
-
-
 }
 
 void CreaTortaOSpezzataWidget::aggiungiRiga()
@@ -111,6 +108,11 @@ void CreaTortaOSpezzataWidget::aggiungiRiga()
     valore->setValidator(new QDoubleValidator);
     formLayout->addRow(nome, valore);
     dati.push_back(QLineEditPair(nome, valore));
+}
+
+void CreaTortaOSpezzataWidget::cancellaCreazioneGrafico()
+{
+    emit cancella();
 }
 
 CreaTortaOSpezzataWidget::QLineEditPair::QLineEditPair(QLineEdit * nome, QLineEdit *valore): nome(nome), valore(valore)

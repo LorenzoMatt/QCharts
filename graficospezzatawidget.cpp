@@ -24,6 +24,7 @@ void GraficoSpezzataWidget::visualizzaGrafico()
         contatore++;
     }
     chart = new QChart();
+    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();

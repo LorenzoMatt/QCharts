@@ -13,7 +13,6 @@ using QtCharts::QLineSeries;
 
 class GraficoSpezzataWidget : public GraficoBaseWidget
 {
-
 public:
     GraficoSpezzataWidget();
     GraficoSpezzataWidget(GraficoBase *grafico);

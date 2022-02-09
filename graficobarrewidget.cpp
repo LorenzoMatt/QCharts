@@ -29,6 +29,7 @@ void GraficoBarreWidget::visualizzaGrafico()
         series->append(bar);
     }
     chart = new QChart();
+    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
     chart->addSeries(series);
 
     chart->setAnimationOptions(QChart::AllAnimations);

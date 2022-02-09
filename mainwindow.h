@@ -1,11 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-// The main window to which you add toolbars,
-// menubars, widgets and status bar
 #include <QtWidgets/QMainWindow>
-
-// Widget used to display charts
 #include <QtCharts/QChartView>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
@@ -30,9 +26,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     GraficiController *controller;
-
-    // funzioni
-
     GraficoBaseWidget *graficoTorta;
     GraficoBaseWidget *graficoSpezzata;
     GraficoBaseWidget *graficoBarre;

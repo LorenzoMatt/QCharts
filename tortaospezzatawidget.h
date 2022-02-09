@@ -1,5 +1,5 @@
-#ifndef CREATORTAOSPEZZATAWIDGET_H
-#define CREATORTAOSPEZZATAWIDGET_H
+#ifndef TORTAOSPEZZATAWIDGET_H
+#define TORTAOSPEZZATAWIDGET_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -12,13 +12,13 @@
 
 #include "coordinataspezzata.h"
 #include "string"
-#include "map"
 #include "list"
+#include "graficospezzata.h"
+#include "graficotorta.h"
 using std::list;
-using std::map;
 using std::string;
 
-class CreaTortaOSpezzataWidget : public QWidget
+class TortaOSpezzataWidget : public QWidget
 {
     Q_OBJECT
 private:
@@ -35,12 +35,19 @@ private:
     QList<QLineEditPair> dati;
     QHBoxLayout *layoutBottoni;
     bool graficoTorta;
+    GraficoBase* grafico;
+
+    void aggiungiDatiGrafico();
+    void costruisciDatiSpezzata(GraficoSpezzata*);
+    void costruisciDatiTorta(GraficoTorta*);
+
+    void costruisciRigaConDati(string nome, double valore);
 
 public:
-    explicit CreaTortaOSpezzataWidget(QWidget *parent = nullptr, bool = true);
+    explicit TortaOSpezzataWidget(QWidget *parent = nullptr, bool = true, GraficoBase* grafico = nullptr);
 signals:
-    void creaTorta(map<std::string, double>);
-    void creaSpezzata(const list<CoordinataSpezzata *> &);
+    void Torta(map<std::string, double>);
+    void Spezzata(const list<CoordinataSpezzata *> &);
     void cancella();
 
 private slots:
@@ -50,4 +57,4 @@ private slots:
     void cancellaCreazioneGrafico();
 };
 
-#endif // CREATORTAOSPEZZATAWIDGET_H
+#endif // TORTAOSPEZZATAWIDGET_H

@@ -50,8 +50,9 @@ void GraficiController::creaNuovaBarra(const list<string> &categorie, const list
 
 void GraficiController::salva(string path)
 {
-    if (grafico)
+    if (grafico){
         grafico->salva(path);
+    }
 }
 
 void GraficiController::visualizzaGrafico()

@@ -12,7 +12,6 @@ CONFIG += c++11
 SOURCES += \
     coordinataspezzata.cpp \
     creagraficobarrewidget.cpp \
-    creatortaospezzatawidget.cpp \
     datigraficobarre.cpp \
     filereader.cpp \
     graficicontroller.cpp \
@@ -27,12 +26,14 @@ SOURCES += \
     inseriscititolowidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    modificagraficowidget.cpp \
+    modificatortawidget.cpp \
+    tortaospezzatawidget.cpp \
     utility.cpp
 
 HEADERS += \
     coordinataspezzata.h \
     creagraficobarrewidget.h \
-    creatortaospezzatawidget.h \
     datigraficobarre.h \
     filereader.h \
     graficicontroller.h \
@@ -47,6 +48,9 @@ HEADERS += \
     graficotortawidget.h \
     inseriscititolowidget.h \
     mainwindow.h \
+    modificagraficowidget.h \
+    modificatortawidget.h \
+    tortaospezzatawidget.h \
     utility.h
 
 # Default rules for deployment.

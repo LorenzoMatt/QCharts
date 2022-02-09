@@ -29,9 +29,7 @@ private:
     GraficoBaseWidget *graficoTorta;
     GraficoBaseWidget *graficoSpezzata;
     GraficoBaseWidget *graficoBarre;
-
     double calcoloPercentuale(double, double) const;
-
     QMenuBar *creaMenu();
 
 public:
@@ -58,6 +56,10 @@ private slots:
     void inserisciTitoloSpezzata();
     void inserisciTitoloBarre();
     void inserisciTitoloTorta();
+    void modificaTitoloSpezzata();
+    void modificaTitoloBarre();
+    void modificaTitoloTorta();
+    void modificaGrafico();
 
 signals:
     void carica(const QString &);

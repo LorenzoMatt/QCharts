@@ -1,7 +1,7 @@
 #include "inseriscititolowidget.h"
 #include "utility.h"
 
-InserisciTitoloWidget::InserisciTitoloWidget(QWidget *parent)
+InserisciTitoloWidget::InserisciTitoloWidget(QString titoloStringa, QWidget *parent)
     : QWidget{parent}
 {
     titolo = new QLineEdit();
@@ -11,7 +11,10 @@ InserisciTitoloWidget::InserisciTitoloWidget(QWidget *parent)
     label->setFont(QFont("Times", 30, QFont::Bold));
     label->setBuddy(titolo);
     label->setMargin(50);
-    titolo->setPlaceholderText("Inserisci titolo");
+    if(titoloStringa == "")
+        titolo->setPlaceholderText("Inserisci titolo");
+    else
+        titolo->setText(titoloStringa);
     QVBoxLayout* layout = new QVBoxLayout();
 
     connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConfermaCreazioneTitolo()));

@@ -14,7 +14,7 @@ class InserisciTitoloWidget : public QWidget
 private:
     QLineEdit* titolo;
 public:
-    explicit InserisciTitoloWidget(QWidget *parent = nullptr);
+    explicit InserisciTitoloWidget(QString titoloStringa = "", QWidget *parent = nullptr);
 
 signals:
     void titoloSignal(const QString&);

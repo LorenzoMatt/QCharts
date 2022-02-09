@@ -1,10 +1,10 @@
-#include "creatortaospezzatawidget.h"
+#include "tortaospezzatawidget.h"
 #include "utility.h"
 
-CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool graficoTorta) : QWidget(parent), graficoTorta(graficoTorta)
+TortaOSpezzataWidget::TortaOSpezzataWidget(QWidget *parent, bool graficoTorta, GraficoBase *grafico) : QWidget(parent), graficoTorta(graficoTorta), grafico(grafico)
 {
-    QString title = "Crea grafico";
-    title = title + (graficoTorta ? " a torta" : " a linee");
+    QString title = grafico ? "Modifica " : "Crea ";
+    title = title + "grafico" + (graficoTorta ? " a torta" : " a linee");
     setWindowTitle(title);
     formLayout = new QFormLayout();
     layout = new QVBoxLayout();
@@ -15,6 +15,10 @@ CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool grafico
     connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConferma()));
     connect(aggiungiRiga, SIGNAL(clicked()), this, SLOT(aggiungiRiga()));
     connect(cancella, SIGNAL(clicked()), this, SLOT(cancellaCreazioneGrafico()));
+
+    if(grafico){
+        aggiungiDatiGrafico();
+    }
 
     layoutBottoni = new QHBoxLayout();
     layoutBottoni->addWidget(aggiungiRiga);
@@ -27,7 +31,45 @@ CreaTortaOSpezzataWidget::CreaTortaOSpezzataWidget(QWidget *parent, bool grafico
     setMinimumSize(200, 200);
 }
 
-void CreaTortaOSpezzataWidget::finestraDiConferma()
+void TortaOSpezzataWidget::aggiungiDatiGrafico()
+{
+    GraficoSpezzata* gs = dynamic_cast<GraficoSpezzata*>(grafico);
+    if(gs){
+        costruisciDatiSpezzata(gs);
+    }
+    GraficoTorta* gt = dynamic_cast<GraficoTorta*>(grafico);
+    if(gt){
+        costruisciDatiTorta(gt);
+    }
+}
+
+void TortaOSpezzataWidget::costruisciDatiSpezzata(GraficoSpezzata* gs)
+{
+    for(auto it= gs->getValori().begin(); it != gs->getValori().end(); ++it){
+        costruisciRigaConDati((*it)->getNome(), (*it)->getValore());
+    }
+}
+
+void TortaOSpezzataWidget::costruisciDatiTorta(GraficoTorta* gt)
+{
+    for(auto it= gt->getFette().begin(); it != gt->getFette().end(); ++it){
+        costruisciRigaConDati(it->first, it->second);
+    }
+}
+
+void TortaOSpezzataWidget::costruisciRigaConDati(string n, double v)
+{
+    QLineEdit *nome = new QLineEdit();
+    nome->setText(QString::fromStdString(n));
+    QLineEdit *valore = new QLineEdit();
+    valore->setText(QString::number(v, 'f', 2));
+    valore->setValidator(new QDoubleValidator);
+    formLayout->addRow(nome, valore);
+    dati.push_back(QLineEditPair(nome, valore));
+}
+
+
+void TortaOSpezzataWidget::finestraDiConferma()
 {
     if (!dati.empty() && !dati.begin()->nome->text().isEmpty() && !dati.begin()->valore->text().isEmpty())
     {
@@ -50,7 +92,7 @@ void CreaTortaOSpezzataWidget::finestraDiConferma()
     }
 }
 
-void CreaTortaOSpezzataWidget::confermaCreazione()
+void TortaOSpezzataWidget::confermaCreazione()
 {
     bool chiaviDuplicate = false;
 
@@ -71,7 +113,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
         }
         if (!chiaviDuplicate)
         {
-            emit creaTorta(v);
+            emit Torta(v);
             close();
         }
         else
@@ -98,7 +140,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
         }
         if (!chiaviDuplicate)
         {
-            emit creaSpezzata(v);
+            emit Spezzata(v);
             close();
         }
         else
@@ -108,7 +150,7 @@ void CreaTortaOSpezzataWidget::confermaCreazione()
     }
 }
 
-void CreaTortaOSpezzataWidget::aggiungiRiga()
+void TortaOSpezzataWidget::aggiungiRiga()
 {
     QLineEdit *nome = new QLineEdit();
     nome->setPlaceholderText("inserisci il nome");
@@ -119,11 +161,11 @@ void CreaTortaOSpezzataWidget::aggiungiRiga()
     dati.push_back(QLineEditPair(nome, valore));
 }
 
-void CreaTortaOSpezzataWidget::cancellaCreazioneGrafico()
+void TortaOSpezzataWidget::cancellaCreazioneGrafico()
 {
     emit cancella();
 }
 
-CreaTortaOSpezzataWidget::QLineEditPair::QLineEditPair(QLineEdit *nome, QLineEdit *valore) : nome(nome), valore(valore)
+TortaOSpezzataWidget::QLineEditPair::QLineEditPair(QLineEdit *nome, QLineEdit *valore) : nome(nome), valore(valore)
 {
 }

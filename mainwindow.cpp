@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "graficicontroller.h"
-#include "creatortaospezzatawidget.h"
+#include "tortaospezzatawidget.h"
 #include "creagraficobarrewidget.h"
 #include "inseriscititolowidget.h"
 #include "graficobarrewidget.h"
@@ -26,10 +26,10 @@ void MainWindow::setChartView(GraficoBaseWidget *newChartView)
 void MainWindow::apriEsploraRisorseCaricaFile()
 {
     QString path = QFileDialog::getOpenFileName(
-        const_cast<MainWindow *>(this),
-        "Seleziona file",
-        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-        tr("XML files (*.xml)"));
+                const_cast<MainWindow *>(this),
+                "Seleziona file",
+                QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                tr("XML files (*.xml)"));
     emit carica(path);
 }
 
@@ -38,10 +38,10 @@ void MainWindow::apriEsploraRisorseSalvaFile()
     if (controller->getGrafico())
     {
         QString path = QFileDialog::getSaveFileName(
-            const_cast<MainWindow *>(this),
-            "Salva file",
-            QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
-            tr("XML files (*.xml)"));
+                    const_cast<MainWindow *>(this),
+                    "Salva file",
+                    QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                    tr("XML files (*.xml)"));
         controller->salva(path.toStdString());
     }
     else
@@ -52,10 +52,10 @@ void MainWindow::apriEsploraRisorseSalvaFile()
 
 void MainWindow::creaGraficoTorta()
 {
-    CreaTortaOSpezzataWidget *creaTortaWidget = new CreaTortaOSpezzataWidget();
+    TortaOSpezzataWidget *creaTortaWidget = new TortaOSpezzataWidget();
     setCentralWidget(creaTortaWidget);
-    connect(creaTortaWidget, SIGNAL(creaTorta(map<std::string, double>)), controller, SLOT(creaNuovaTorta(map<std::string, double>)));
-    connect(creaTortaWidget, SIGNAL(creaTorta(map<std::string, double>)), this, SLOT(inserisciTitoloTorta()));
+    connect(creaTortaWidget, SIGNAL(Torta(map<std::string, double>)), controller, SLOT(creaNuovaTorta(map<std::string, double>)));
+    connect(creaTortaWidget, SIGNAL(Torta(map<std::string, double>)), this, SLOT(inserisciTitoloTorta()));
     connect(creaTortaWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
 }
 
@@ -70,10 +70,10 @@ void MainWindow::creaGraficoBarre()
 
 void MainWindow::creaGraficoSpezzata()
 {
-    CreaTortaOSpezzataWidget *creaSpezzataWidget = new CreaTortaOSpezzataWidget(nullptr, false);
+    TortaOSpezzataWidget *creaSpezzataWidget = new TortaOSpezzataWidget(nullptr, false);
     setCentralWidget(creaSpezzataWidget);
-    connect(creaSpezzataWidget, SIGNAL(creaSpezzata(const list<CoordinataSpezzata *> &)), controller, SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata *> &)));
-    connect(creaSpezzataWidget, SIGNAL(creaSpezzata(const list<CoordinataSpezzata *> &)), this, SLOT(inserisciTitoloSpezzata()));
+    connect(creaSpezzataWidget, SIGNAL(Spezzata(const list<CoordinataSpezzata *> &)), controller, SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata *> &)));
+    connect(creaSpezzataWidget, SIGNAL(Spezzata(const list<CoordinataSpezzata *> &)), this, SLOT(inserisciTitoloSpezzata()));
     connect(creaSpezzataWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
 }
 
@@ -87,24 +87,64 @@ void MainWindow::inserisciTitoloSpezzata()
     InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
     setCentralWidget(titoloWidget);
     connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloSpezzata(const QString&)));
-
+    
 }
 
 void MainWindow::inserisciTitoloBarre()
 {
-
     InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
     setCentralWidget(titoloWidget);
     connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloBarre(const QString&)));
 }
 
 void MainWindow::inserisciTitoloTorta()
-{
-
+{ 
     InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
     setCentralWidget(titoloWidget);
     connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloTorta(const QString&)));
 }
+
+void MainWindow::modificaTitoloSpezzata()
+{
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget(QString::fromStdString(controller->getGrafico()->getTitolo()));
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloSpezzata(const QString&)));
+}
+
+void MainWindow::modificaTitoloBarre()
+{
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget(QString::fromStdString(controller->getGrafico()->getTitolo()));
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloBarre(const QString&)));
+}
+
+void MainWindow::modificaTitoloTorta()
+{
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget(QString::fromStdString(controller->getGrafico()->getTitolo()));
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloTorta(const QString&)));
+}
+
+void MainWindow::modificaGrafico()
+{
+    GraficoBase* g = controller->getGrafico();
+    if (g)
+    {
+        if (dynamic_cast<GraficoTorta *>(g) || dynamic_cast<GraficoSpezzata*>(g))
+        {
+            TortaOSpezzataWidget* modificaTortaOSpezzata = new TortaOSpezzataWidget(nullptr, dynamic_cast<GraficoTorta *>(g), g);
+            setCentralWidget(modificaTortaOSpezzata);
+            connect(modificaTortaOSpezzata, SIGNAL(Torta(map<std::string, double>)), this, SLOT(modificaTitoloTorta()));
+            connect(modificaTortaOSpezzata, SIGNAL(Torta(map<std::string, double>)), controller, SLOT(creaNuovaTorta(map<std::string, double>)));
+            connect(modificaTortaOSpezzata, SIGNAL(Spezzata(const list<CoordinataSpezzata *> &)), this, SLOT(modificaTitoloSpezzata()));
+            connect(modificaTortaOSpezzata, SIGNAL(Spezzata(const list<CoordinataSpezzata *> &)), controller, SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata *> &)));
+            connect(modificaTortaOSpezzata, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
+        }
+    }else {
+        messaggioErrore("Modifica non disponibile", "Creare o caricare prima un grafico", this);
+    }
+}
+
 
 void MainWindow::createGraficoTorta()
 {
@@ -161,32 +201,35 @@ QMenuBar *MainWindow::creaMenu()
 {
     QMenuBar *barraMenu = new QMenuBar();
     QMenu *menu1 = new QMenu("File");
-    QMenu *menu11 = new QMenu("Crea Grafico");
+    QMenu *menu2 = new QMenu("Crea Grafico");
     QAction *barre = new QAction("Barre");
     QAction *spezzata = new QAction("Spezzata");
     QAction *torta = new QAction("Torta");
-    menu11->addAction(barre);
-    menu11->addAction(spezzata);
-    menu11->addAction(torta);
+    menu2->addAction(barre);
+    menu2->addAction(spezzata);
+    menu2->addAction(torta);
 
     QAction *carica = new QAction("Carica Grafico");
     QAction *salva = new QAction("Salva Grafico");
+    QAction *modifica = new QAction("Modifica Grafico");
 
-    menu1->addMenu(menu11);
+    menu1->addMenu(menu2);
     menu1->addAction(carica);
     menu1->addAction(salva);
+    menu1->addAction(modifica);
     connect(carica, SIGNAL(triggered()), this, SLOT(apriEsploraRisorseCaricaFile()));
     connect(torta, SIGNAL(triggered()), this, SLOT(creaGraficoTorta()));
     connect(spezzata, SIGNAL(triggered()), this, SLOT(creaGraficoSpezzata()));
     connect(barre, SIGNAL(triggered()), this, SLOT(creaGraficoBarre()));
     connect(salva, SIGNAL(triggered()), this, SLOT(apriEsploraRisorseSalvaFile()));
+    connect(modifica, SIGNAL(triggered()), this, SLOT(modificaGrafico()));
 
     barraMenu->addMenu(menu1);
     return barraMenu;
 }
 
 MainWindow::MainWindow(GraficiController *controller, QWidget *parent) : QMainWindow(parent),
-                                                                         controller(controller)
+    controller(controller)
 {
 
     QMenuBar *barraMenu = creaMenu();

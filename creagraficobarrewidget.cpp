@@ -125,7 +125,7 @@ void CreaGraficoBarreWidget::finestraDiConfermaDatiEditabili()
     if (!datiEditabili.empty() && !(*datiEditabili.begin())->nome->text().isEmpty())
     {
         QMessageBox *dialogo = new QMessageBox(this);
-        dialogo->setInformativeText("Confermi le categorie inserite?");
+        dialogo->setInformativeText("Confermi i dati inseriti?");
         QPushButton *ok = new QPushButton("Conferma");
         QPushButton *annulla = new QPushButton("Annulla");
         ok->setObjectName("Ok");

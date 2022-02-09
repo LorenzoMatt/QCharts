@@ -2,6 +2,7 @@
 #include "graficicontroller.h"
 #include "creatortaospezzatawidget.h"
 #include "creagraficobarrewidget.h"
+#include "inseriscititolowidget.h"
 
 void MainWindow::createGraficoTorta()
 {
@@ -78,6 +79,7 @@ void MainWindow::creaGraficoTorta()
     CreaTortaOSpezzataWidget *creaTortaWidget = new CreaTortaOSpezzataWidget();
     setCentralWidget(creaTortaWidget);
     connect(creaTortaWidget, SIGNAL(creaTorta(map<std::string, double>)), controller, SLOT(creaNuovaTorta(map<std::string, double>)));
+    connect(creaTortaWidget, SIGNAL(creaTorta(map<std::string, double>)), this, SLOT(inserisciTitoloTorta()));
     connect(creaTortaWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
 }
 
@@ -86,6 +88,7 @@ void MainWindow::creaGraficoBarre()
     CreaGraficoBarreWidget *creaGraficoBarreWidget = new CreaGraficoBarreWidget();
     setCentralWidget(creaGraficoBarreWidget);
     connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), controller, SLOT(creaNuovaBarra(const std::list<string> &, const std::list<DatiGraficoBarre *> &)));
+    connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), this, SLOT(inserisciTitoloBarre()));
     connect(creaGraficoBarreWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
 }
 
@@ -94,12 +97,37 @@ void MainWindow::creaGraficoSpezzata()
     CreaTortaOSpezzataWidget *creaSpezzataWidget = new CreaTortaOSpezzataWidget(nullptr, false);
     setCentralWidget(creaSpezzataWidget);
     connect(creaSpezzataWidget, SIGNAL(creaSpezzata(const list<CoordinataSpezzata *> &)), controller, SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata *> &)));
+    connect(creaSpezzataWidget, SIGNAL(creaSpezzata(const list<CoordinataSpezzata *> &)), this, SLOT(inserisciTitoloSpezzata()));
     connect(creaSpezzataWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
 }
 
 void MainWindow::tornaIndietro()
 {
     emit indietro();
+}
+
+void MainWindow::inserisciTitoloSpezzata()
+{
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloSpezzata(const QString&)));
+
+}
+
+void MainWindow::inserisciTitoloBarre()
+{
+
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloBarre(const QString&)));
+}
+
+void MainWindow::inserisciTitoloTorta()
+{
+
+    InserisciTitoloWidget* titoloWidget = new InserisciTitoloWidget();
+    setCentralWidget(titoloWidget);
+    connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloTorta(const QString&)));
 }
 
 void MainWindow::createGraficoBarre()

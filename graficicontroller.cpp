@@ -40,7 +40,6 @@ void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata *> &valo
     if (grafico)
         delete grafico;
     grafico = new GraficoSpezzata(valori);
-    vista->createGraficoSpezzata();
 }
 
 void GraficiController::creaNuovaBarra(const list<string> &categorie, const list<DatiGraficoBarre *> &dati)
@@ -72,6 +71,24 @@ void GraficiController::visualizzaGrafico()
     {
         vista->setCentralWidget(new QChartView());
     }
+}
+
+void GraficiController::setTitoloSpezzata(const QString & titolo)
+{
+    grafico->setTitolo(titolo.toStdString());
+    vista->createGraficoSpezzata();
+}
+
+void GraficiController::setTitoloBarre(const QString & titolo)
+{
+    grafico->setTitolo(titolo.toStdString());
+    vista->createGraficoBarre();
+}
+
+void GraficiController::setTitoloTorta(const QString & titolo)
+{
+    grafico->setTitolo(titolo.toStdString());
+    vista->createGraficoTorta();
 }
 
 void GraficiController::ottieniGraficoDaFile(const QString &path)

@@ -20,6 +20,7 @@ SOURCES += \
     graficobase.cpp \
     graficospezzata.cpp \
     graficotorta.cpp \
+    inseriscititolowidget.cpp \
     main.cpp \
     mainwindow.cpp \
     utility.cpp
@@ -31,10 +32,12 @@ HEADERS += \
     datigraficobarre.h \
     filereader.h \
     graficicontroller.h \
+    graficienum.h \
     graficobarre.h \
     graficobase.h \
     graficospezzata.h \
     graficotorta.h \
+    inseriscititolowidget.h \
     mainwindow.h \
     utility.h
 
@@ -43,5 +46,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    css/style.css
+DISTFILES +=

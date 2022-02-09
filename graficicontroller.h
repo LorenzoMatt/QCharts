@@ -34,6 +34,10 @@ public slots:
     void salva(string);
     void ottieniGraficoDaFile(const QString &);
     void visualizzaGrafico();
+    void setTitoloSpezzata(const QString&);
+    void setTitoloBarre(const QString&);
+    void setTitoloTorta(const QString&);
+
 };
 
 #endif // GRAFICICONTROLLER_H

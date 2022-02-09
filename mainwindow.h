@@ -62,6 +62,10 @@ private slots:
     void creaGraficoBarre();
     void creaGraficoSpezzata();
     void tornaIndietro();
+    void inserisciTitoloSpezzata();
+    void inserisciTitoloBarre();
+    void inserisciTitoloTorta();
+
 signals:
     void carica(const QString &);
     void indietro();

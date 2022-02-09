@@ -32,7 +32,6 @@ void GraficiController::creaNuovaTorta(map<std::string, double> valori)
     if (grafico)
         delete grafico;
     grafico = new GraficoTorta(valori);
-    vista->createGraficoTorta();
 }
 
 void GraficiController::creaNuovaSpezzata(const list<CoordinataSpezzata *> &valori)
@@ -47,7 +46,6 @@ void GraficiController::creaNuovaBarra(const list<string> &categorie, const list
     if (grafico)
         delete grafico;
     grafico = new GraficoBarre(categorie, dati);
-    vista->createGraficoBarre();
 }
 
 void GraficiController::salva(string path)

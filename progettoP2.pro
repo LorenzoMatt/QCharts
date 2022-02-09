@@ -17,9 +17,13 @@ SOURCES += \
     filereader.cpp \
     graficicontroller.cpp \
     graficobarre.cpp \
+    graficobarrewidget.cpp \
     graficobase.cpp \
+    graficobasewidget.cpp \
     graficospezzata.cpp \
+    graficospezzatawidget.cpp \
     graficotorta.cpp \
+    graficotortawidget.cpp \
     inseriscititolowidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -34,9 +38,13 @@ HEADERS += \
     graficicontroller.h \
     graficienum.h \
     graficobarre.h \
+    graficobarrewidget.h \
     graficobase.h \
+    graficobasewidget.h \
     graficospezzata.h \
+    graficospezzatawidget.h \
     graficotorta.h \
+    graficotortawidget.h \
     inseriscititolowidget.h \
     mainwindow.h \
     utility.h

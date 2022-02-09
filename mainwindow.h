@@ -20,7 +20,7 @@
 #include <QString>
 #include <QFileDialog>
 #include <QStandardPaths>
-
+#include "graficobasewidget.h"
 using namespace QtCharts;
 
 class GraficiController;
@@ -33,9 +33,9 @@ private:
 
     // funzioni
 
-    QChartView *graficoTorta;
-    QChartView *graficoSpezzata;
-    QChartView *graficoBarre;
+    GraficoBaseWidget *graficoTorta;
+    GraficoBaseWidget *graficoSpezzata;
+    GraficoBaseWidget *graficoBarre;
 
     double calcoloPercentuale(double, double) const;
 
@@ -46,7 +46,7 @@ public:
     ~MainWindow();
     GraficiController *getController() const;
     void setController(GraficiController *newController);
-    void setChartView(QChartView *newChartView);
+    void setChartView(GraficoBaseWidget *newChartView);
     void createGraficoBarre();
     void createGraficoTorta();
     void createGraficoSpezzata();

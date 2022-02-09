@@ -3,34 +3,10 @@
 #include "creatortaospezzatawidget.h"
 #include "creagraficobarrewidget.h"
 #include "inseriscititolowidget.h"
+#include "graficobarrewidget.h"
+#include "graficospezzatawidget.h"
+#include "graficotortawidget.h"
 
-void MainWindow::createGraficoTorta()
-{
-    GraficoTorta *grafico = dynamic_cast<GraficoTorta *>(controller->getGrafico());
-
-    double tot = 0;
-    for (auto it = grafico->getFette().begin(); it != grafico->getFette().end(); ++it)
-    {
-        tot += it->second;
-    }
-    QPieSeries *series = new QPieSeries();
-    for (auto it = grafico->getFette().begin(); it != grafico->getFette().end(); ++it)
-    {
-        QPieSlice *slice = new QPieSlice(QString::fromStdString(it->first), calcoloPercentuale(it->second, tot));
-        series->append(slice);
-        slice->setLabelVisible();
-    }
-    QChart *chart = new QChart();
-
-    chart->addSeries(series);
-    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
-    chart->legend()->hide();
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    graficoTorta = chartView;
-    setCentralWidget(graficoTorta);
-}
 
 GraficiController *MainWindow::getController() const
 {
@@ -42,7 +18,7 @@ void MainWindow::setController(GraficiController *newController)
     controller = newController;
 }
 
-void MainWindow::setChartView(QChartView *newChartView)
+void MainWindow::setChartView(GraficoBaseWidget *newChartView)
 {
     graficoTorta = newChartView;
 }
@@ -130,78 +106,30 @@ void MainWindow::inserisciTitoloTorta()
     connect(titoloWidget, SIGNAL(titoloSignal(const QString&)), controller, SLOT(setTitoloTorta(const QString&)));
 }
 
+void MainWindow::createGraficoTorta()
+{
+    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
+    graficoTorta= new GraficoTortaWidget();
+    graficoTorta->setGrafico(controller->getGrafico());
+    graficoTorta->visualizzaGrafico();
+    setCentralWidget(graficoTorta);
+}
+
 void MainWindow::createGraficoBarre()
 {
-    GraficoBarre *grafico = dynamic_cast<GraficoBarre *>(controller->getGrafico());
-
-    QBarSeries *series = new QBarSeries();
-
-    for (auto it = grafico->getDati().begin(); it != grafico->getDati().end(); ++it)
-    {
-        QBarSet *bar = new QBarSet(QString::fromStdString((*it)->getNome()));
-        list<double> l = (*it)->getValori();
-        for (auto it2 = l.begin(); it2 != l.end(); ++it2)
-        {
-            bar->append(*it2);
-        }
-        series->append(bar);
-    }
-
-    QChart *chart = new QChart();
-
-    chart->addSeries(series);
-    chart->setTitle(QString::fromStdString(grafico->getTitolo()));
-
-    chart->setAnimationOptions(QChart::AllAnimations);
-    QBarCategoryAxis *axis = new QBarCategoryAxis();
-    QStringList categories;
-    for (auto it = grafico->getCategorie().begin(); it != grafico->getCategorie().end(); ++it)
-    {
-        categories.append(QString::fromStdString(*it));
-    }
-    axis->append(categories);
-    chart->createDefaultAxes();
-
-    chart->setAxisX(axis, series);
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    graficoBarre = chartView;
+    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
+    graficoBarre = new GraficoBarreWidget();
+    graficoBarre->setGrafico(controller->getGrafico());
+    graficoBarre->visualizzaGrafico();
     setCentralWidget(graficoBarre);
 }
 
 void MainWindow::createGraficoSpezzata()
 {
-    GraficoSpezzata *graficoLinee = dynamic_cast<GraficoSpezzata *>(controller->getGrafico());
-    QLineSeries *series = new QLineSeries();
-    QCategoryAxis *axisX = new QCategoryAxis();
-
-    unsigned int contatore = 1;
-    for (auto it = graficoLinee->getValori().begin(); it != graficoLinee->getValori().end(); ++it)
-    {
-        series->append(contatore, (*it)->getValore());
-        axisX->append(QString::fromStdString((*it)->getNome()), contatore);
-        contatore++;
-    }
-    QChart *chart = new QChart();
-    chart->legend()->hide();
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-    QFont font;
-    chart->setTitleFont(font);
-    chart->setTitleBrush(QBrush(Qt::black));
-    chart->setTitle(QString::fromStdString(graficoLinee->getTitolo()));
-    QPen pen(QRgb(0x000000));
-    series->setPen(pen);
-
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->setAxisX(axisX, series);
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    graficoSpezzata = chartView;
+    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
+    graficoSpezzata = new GraficoSpezzataWidget();
+    graficoSpezzata->setGrafico(controller->getGrafico());
+    graficoSpezzata->visualizzaGrafico();
     setCentralWidget(graficoSpezzata);
 }
 
@@ -260,12 +188,13 @@ QMenuBar *MainWindow::creaMenu()
 MainWindow::MainWindow(GraficiController *controller, QWidget *parent) : QMainWindow(parent),
                                                                          controller(controller)
 {
+
     QMenuBar *barraMenu = creaMenu();
+    graficoBarre = new GraficoBarreWidget();
+    graficoTorta = new GraficoTortaWidget();
+    graficoSpezzata = new GraficoSpezzataWidget();
     setMenuBar(barraMenu);
-    graficoTorta = new QChartView();
-    graficoSpezzata = new QChartView();
-    graficoBarre = new QChartView();
-    setCentralWidget(graficoBarre);
+    setCentralWidget(new QChartView());
     resize(420, 300);
     show();
 }

@@ -35,7 +35,6 @@ HEADERS += \
     datigraficobarre.h \
     filereader.h \
     graficicontroller.h \
-    graficienum.h \
     graficobarre.h \
     graficobarrewidget.h \
     graficobase.h \

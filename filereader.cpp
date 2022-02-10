@@ -81,7 +81,7 @@ GraficoSpezzata *FileReader::estraiGraficoSpezzate(QDomNode nodo, QString tipo, 
             valori.push_back(new CoordinataSpezzata(nome.toStdString(), valore));
         }
     }
-    return new GraficoSpezzata(valori);
+    return new GraficoSpezzata(valori, titolo.toStdString());
 }
 
 GraficoBarre *FileReader::estraiGraficoBarre(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const
@@ -135,7 +135,7 @@ GraficoBarre *FileReader::estraiGraficoBarre(QDomNode nodo, QString tipo, QStrin
             dati.push_back(new DatiGraficoBarre(nome.toStdString(), valori));
         }
     }
-    return new GraficoBarre(categorie, dati);
+    return new GraficoBarre(categorie, dati, titolo.toStdString());
 }
 
 GraficoBase *FileReader::ottieniGraficoDaFile(const string &path) const
@@ -169,19 +169,19 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string &path) const
                 tipo = elemento.text();
                 if (tipo == "Torta")
                 {
-                    return estraiDatiTorta(nodo, titolo, tipo, el);
+                    return estraiDatiTorta(nodo, tipo, titolo, el);
                 }
                 else
                 {
                     if (tipo == "Linee")
                     {
-                        return estraiGraficoSpezzate(nodo, titolo, tipo, el);
+                        return estraiGraficoSpezzate(nodo, tipo, titolo, el);
                     }
                     else
                     {
                         if (tipo == "Barre")
                         {
-                            return estraiGraficoBarre(nodo, titolo, tipo, el);
+                            return estraiGraficoBarre(nodo, tipo, titolo, el);
                         }
                     }
                 }

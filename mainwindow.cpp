@@ -140,6 +140,14 @@ void MainWindow::modificaGrafico()
             connect(modificaTortaOSpezzata, SIGNAL(Spezzata(const list<CoordinataSpezzata *> &)), controller, SLOT(creaNuovaSpezzata(const list<CoordinataSpezzata *> &)));
             connect(modificaTortaOSpezzata, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
         }
+        GraficoBarre* barre = dynamic_cast<GraficoBarre*>(g);
+        if(barre){
+            CreaGraficoBarreWidget* creaGraficoBarreWidget = new CreaGraficoBarreWidget(barre);
+            setCentralWidget(creaGraficoBarreWidget);
+            connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), controller, SLOT(creaNuovaBarra(const std::list<string> &, const std::list<DatiGraficoBarre *> &)));
+            connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), this, SLOT(modificaTitoloBarre()));
+            connect(creaGraficoBarreWidget, SIGNAL(cancella()), this, SLOT(tornaIndietro()));
+        }
     }else {
         messaggioErrore("Modifica non disponibile", "Creare o caricare prima un grafico", this);
     }
@@ -148,7 +156,6 @@ void MainWindow::modificaGrafico()
 
 void MainWindow::createGraficoTorta()
 {
-    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
     graficoTorta= new GraficoTortaWidget();
     graficoTorta->setGrafico(controller->getGrafico());
     graficoTorta->visualizzaGrafico();
@@ -157,7 +164,6 @@ void MainWindow::createGraficoTorta()
 
 void MainWindow::createGraficoBarre()
 {
-    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
     graficoBarre = new GraficoBarreWidget();
     graficoBarre->setGrafico(controller->getGrafico());
     graficoBarre->visualizzaGrafico();
@@ -166,7 +172,6 @@ void MainWindow::createGraficoBarre()
 
 void MainWindow::createGraficoSpezzata()
 {
-    //capire perchè se non faccio una new va in eccezione solo visualizzaGrafico e non setGrafico
     graficoSpezzata = new GraficoSpezzataWidget();
     graficoSpezzata->setGrafico(controller->getGrafico());
     graficoSpezzata->visualizzaGrafico();

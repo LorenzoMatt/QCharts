@@ -26,8 +26,6 @@ SOURCES += \
     inseriscititolowidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    modificagraficowidget.cpp \
-    modificatortawidget.cpp \
     tortaospezzatawidget.cpp \
     utility.cpp
 
@@ -48,8 +46,6 @@ HEADERS += \
     graficotortawidget.h \
     inseriscititolowidget.h \
     mainwindow.h \
-    modificagraficowidget.h \
-    modificatortawidget.h \
     tortaospezzatawidget.h \
     utility.h
 

@@ -2,6 +2,7 @@
 #define CREAGRAFICOBARREWIDGET_H
 
 #include "datigraficobarre.h"
+#include "graficobarre.h"
 
 #include <QFormLayout>
 #include <QLineEdit>
@@ -21,6 +22,7 @@ class CreaGraficoBarreWidget : public QWidget
     Q_OBJECT
 private:
     list<string> categorie;
+    GraficoBarre *grafico;
     QList<QLineEdit *> categorieEditabili;
     QVBoxLayout *layoutPrincipale;
     QVBoxLayout *layoutCategorieWidget;
@@ -29,9 +31,11 @@ private:
 
     QGridLayout *gridLayoutDatiEditabili;
 
+    void aggiungiDatiCategorie();
+
     void creaSchermataInserimentoDati();
 
-    void creaTabellaDatiEditabili();
+    void creaLayoutDatiEditabili();
 
     void clearWidgets(QLayout *);
 
@@ -49,7 +53,7 @@ private:
     QHBoxLayout *layoutBottoniDatiEditabiliWidget;
 
 public:
-    explicit CreaGraficoBarreWidget(QWidget *parent = nullptr);
+    explicit CreaGraficoBarreWidget(GraficoBarre* grafico = nullptr, QWidget *parent = nullptr);
 
 private slots:
     void finestraDiConfermaCategorie();

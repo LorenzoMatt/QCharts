@@ -1,4 +1,4 @@
-#ifndef MODIFICAGRAFICOWIDGET_H
+ifndef MODIFICAGRAFICOWIDGET_H
 #define MODIFICAGRAFICOWIDGET_H
 
 #include "graficobase.h"
@@ -16,5 +16,4 @@ public:
 signals:
 
 };
-
 #endif // MODIFICAGRAFICOWIDGET_H

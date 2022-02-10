@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grafico>
-    <titolo>Grafico a Barre</titolo>
+    <titolo>tt</titolo>
     <tipo>Barre</tipo>
     <categorie>
-        <categoria>fff</categoria>
-        <categoria>eee</categoria>
-        <categoria>yyy</categoria>
+        <categoria>ff</categoria>
+        <categoria>uu</categoria>
+        <categoria>qqq</categoria>
+        <categoria>rrr</categoria>
     </categorie>
     <dati>
         <dato>
-            <nome>uuu</nome>
+            <nome>qq</nome>
             <valori>
-                <valore>22.000000</valore>
-                <valore>99.000000</valore>
-                <valore>88.000000</valore>
+                <valore>55.000000</valore>
+                <valore>33.000000</valore>
+                <valore>56.000000</valore>
+                <valore>0.000000</valore>
             </valori>
         </dato>
         <dato>
             <nome>yy</nome>
             <valori>
+                <valore>22.000000</valore>
+                <valore>44.000000</valore>
                 <valore>11.000000</valore>
-                <valore>54.000000</valore>
-                <valore>78.000000</valore>
+                <valore>0.000000</valore>
             </valori>
         </dato>
         <dato>
-            <nome>39</nome>
+            <nome>tt</nome>
             <valori>
-                <valore>50.000000</valore>
-                <valore>90.000000</valore>
-                <valore>20.000000</valore>
+                <valore>55.000000</valore>
+                <valore>55.000000</valore>
+                <valore>55.000000</valore>
+                <valore>0.000000</valore>
             </valori>
         </dato>
     </dati>

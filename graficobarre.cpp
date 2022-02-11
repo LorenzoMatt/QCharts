@@ -75,6 +75,14 @@ GraficoBarre::GraficoBarre()
 {
 }
 
+GraficoBarre::~GraficoBarre()
+{
+    for(auto it = dati.begin(); it!= dati.end(); ++it){
+        if (*it)
+            delete *it;
+    }
+}
+
 GraficoBarre::GraficoBarre(const list<string> &categorie, const list<DatiGraficoBarre *> &dati, string titolo) : GraficoBase(titolo), categorie(categorie),
                                                                                                                  dati(dati)
 {

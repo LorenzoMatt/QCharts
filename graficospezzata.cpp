@@ -1,5 +1,5 @@
 #include "graficospezzata.h"
-
+#include "graficononsalvato.h"
 #include "utility.h"
 
 void GraficoSpezzata::salva(string path) const
@@ -7,7 +7,7 @@ void GraficoSpezzata::salva(string path) const
     QFile *file = new QFile(QString::fromStdString(path)); // costruttore con il nome del file
     if (!file->open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        messaggioErrore("file non aperto", "file non aperto correttamente");
+        throw GraficoNonSalvato();
     }
     else
     {

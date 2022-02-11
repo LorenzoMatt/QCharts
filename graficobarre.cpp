@@ -1,7 +1,7 @@
 #include "graficobarre.h"
 
 #include <QXmlStreamWriter>
-
+#include "graficononsalvato.h"
 const list<string> &GraficoBarre::getCategorie() const
 {
     return categorie;
@@ -22,7 +22,7 @@ void GraficoBarre::salva(std::string path) const
     QFile *file = new QFile(QString::fromStdString(path)); // costruttore con il nome del file
     if (!file->open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        messaggioErrore("file non aperto", "file non aperto correttamente");
+        throw GraficoNonSalvato();
     }
     else
     {

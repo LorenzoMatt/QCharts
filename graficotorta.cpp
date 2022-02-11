@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 #include "utility.h"
+#include "graficononsalvato.h"
 
 const map<string, double> &GraficoTorta::getFette() const
 {
@@ -20,7 +21,7 @@ void GraficoTorta::salva(string path) const
     QFile *file = new QFile(QString::fromStdString(path)); // costruttore con il nome del file
     if (!file->open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        messaggioErrore("file non aperto", "file non aperto correttamente");
+        throw GraficoNonSalvato();
     }
     else
     {

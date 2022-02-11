@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    GraficiController *controller;
+    GraficiController* controller;
     GraficoBaseWidget *graficoTorta;
     GraficoBaseWidget *graficoSpezzata;
     GraficoBaseWidget *graficoBarre;

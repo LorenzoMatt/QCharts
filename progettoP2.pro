@@ -19,6 +19,7 @@ SOURCES += \
     graficobarrewidget.cpp \
     graficobase.cpp \
     graficobasewidget.cpp \
+    graficononsalvato.cpp \
     graficospezzata.cpp \
     graficospezzatawidget.cpp \
     graficotorta.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     graficobarrewidget.h \
     graficobase.h \
     graficobasewidget.h \
+    graficononsalvato.h \
     graficospezzata.h \
     graficospezzatawidget.h \
     graficotorta.h \

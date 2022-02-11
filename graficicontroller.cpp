@@ -1,5 +1,5 @@
 #include "graficicontroller.h"
-
+#include "graficononsalvato.h"
 MainWindow *GraficiController::getVista() const
 {
     return vista;
@@ -48,11 +48,23 @@ void GraficiController::creaNuovaBarra(const list<string> &categorie, const list
     grafico = new GraficoBarre(categorie, dati);
 }
 
-void GraficiController::salva(string path)
+void GraficiController::salva(QString path)
 {
-    if (grafico){
-        grafico->salva(path);
+    try{
+        if (grafico){
+            grafico->salva(path.toStdString());
+            this->path = path;
+            messaggioInformativo("Salvataggio effettuato","Il grafico è stato salvato con successo", vista);
+        }
+    }catch(GraficoNonSalvato e){
+        messaggioErrore("Grafico non salvato","Il file non è stato aperto correttamente", vista);
     }
+
+}
+
+void GraficiController::svuotaPath()
+{
+    path = "";
 }
 
 void GraficiController::visualizzaGrafico()
@@ -95,8 +107,24 @@ void GraficiController::ottieniGraficoDaFile(const QString &path)
     if (!path.isEmpty())
     {
         grafico = fileReader->ottieniGraficoDaFile(path.toStdString());
+        this->path = path;
         visualizzaGrafico();
     }
+}
+
+void GraficiController::setFileReader(FileReader *newFileReader)
+{
+    fileReader = newFileReader;
+}
+
+const QString &GraficiController::getPath() const
+{
+    return path;
+}
+
+void GraficiController::setPath(const QString &newPath)
+{
+    path = newPath;
 }
 
 GraficiController::GraficiController(QObject *parent) : QObject(parent), vista(nullptr), grafico(nullptr)

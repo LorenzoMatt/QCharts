@@ -28,7 +28,7 @@ void MainWindow::apriEsploraRisorseCaricaFile()
     QString path = QFileDialog::getOpenFileName(
                     const_cast<MainWindow *>(this),
                     "Seleziona file",
-                    QStandardPaths::writableLocation(QStandardPaths::CacheLocation),
+                    QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
                     tr("XML files (*.xml)"));
     emit carica(path);
 }
@@ -42,7 +42,7 @@ void MainWindow::apriEsploraRisorseSalvaFile()
             path = QFileDialog::getSaveFileName(
                         const_cast<MainWindow *>(this),
                         "Salva file",
-                        QStandardPaths::writableLocation(QStandardPaths::CacheLocation),
+                        QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
                         tr("XML files (*.xml)"));
         }else{
             path = controller->getPath();

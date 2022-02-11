@@ -12,7 +12,7 @@ void FileReader::setPath(const string &newPath)
     path = newPath;
 }
 
-GraficoTorta *FileReader::estraiDatiTorta(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const
+GraficoTorta *FileReader::estraiDatiTorta(QDomNode nodo, QString titolo, const QDomElement &el) const
 {
     nodo = nodo.nextSibling();
     QDomElement elemento = nodo.toElement();
@@ -48,7 +48,7 @@ GraficoTorta *FileReader::estraiDatiTorta(QDomNode nodo, QString tipo, QString t
     return new GraficoTorta(fette, titolo.toStdString());
 }
 
-GraficoSpezzata *FileReader::estraiGraficoSpezzate(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const
+GraficoSpezzata *FileReader::estraiGraficoSpezzate(QDomNode nodo, QString titolo, const QDomElement &el) const
 {
     nodo = nodo.nextSibling();
     QDomElement elemento = nodo.toElement();
@@ -84,7 +84,7 @@ GraficoSpezzata *FileReader::estraiGraficoSpezzate(QDomNode nodo, QString tipo, 
     return new GraficoSpezzata(valori, titolo.toStdString());
 }
 
-GraficoBarre *FileReader::estraiGraficoBarre(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const
+GraficoBarre *FileReader::estraiGraficoBarre(QDomNode nodo, QString titolo, const QDomElement &el) const
 {
     nodo = nodo.nextSibling();
     QDomElement elemento = nodo.toElement();
@@ -169,19 +169,19 @@ GraficoBase *FileReader::ottieniGraficoDaFile(const string &path) const
                 tipo = elemento.text();
                 if (tipo == "Torta")
                 {
-                    return estraiDatiTorta(nodo, tipo, titolo, el);
+                    return estraiDatiTorta(nodo, titolo, el);
                 }
                 else
                 {
                     if (tipo == "Linee")
                     {
-                        return estraiGraficoSpezzate(nodo, tipo, titolo, el);
+                        return estraiGraficoSpezzate(nodo, titolo, el);
                     }
                     else
                     {
                         if (tipo == "Barre")
                         {
-                            return estraiGraficoBarre(nodo, tipo, titolo, el);
+                            return estraiGraficoBarre(nodo, titolo, el);
                         }
                     }
                 }

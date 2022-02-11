@@ -21,11 +21,11 @@ class FileReader
 {
 private:
     string path;
-    GraficoTorta *estraiDatiTorta(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const;
+    GraficoTorta *estraiDatiTorta(QDomNode nodo, QString titolo, const QDomElement &el) const;
 
-    GraficoSpezzata *estraiGraficoSpezzate(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const;
+    GraficoSpezzata *estraiGraficoSpezzate(QDomNode nodo, QString titolo, const QDomElement &el) const;
 
-    GraficoBarre *estraiGraficoBarre(QDomNode nodo, QString tipo, QString titolo, const QDomElement &el) const;
+    GraficoBarre *estraiGraficoBarre(QDomNode nodo, QString titolo, const QDomElement &el) const;
 
 public:
     FileReader();

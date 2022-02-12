@@ -214,23 +214,24 @@ double MainWindow::calcoloPercentuale(double valore, double totale) const
 QMenuBar *MainWindow::creaMenu()
 {
     QMenuBar *barraMenu = new QMenuBar();
-    QMenu *menu1 = new QMenu("File");
-    QMenu *menu2 = new QMenu("Crea Grafico");
+    QMenu *menuFile = new QMenu("File");
+    QMenu *menuCreazioneModifica = new QMenu("Grafico");
+    QMenu *menuGrafico = new QMenu("Crea Grafico");
+    QAction *modifica = new QAction("Modifica Grafico");
     QAction *barre = new QAction("Barre");
     QAction *spezzata = new QAction("Spezzata");
     QAction *torta = new QAction("Torta");
-    menu2->addAction(barre);
-    menu2->addAction(spezzata);
-    menu2->addAction(torta);
+    menuGrafico->addAction(barre);
+    menuGrafico->addAction(spezzata);
+    menuGrafico->addAction(torta);
 
     QAction *carica = new QAction("Carica Grafico");
     QAction *salva = new QAction("Salva Grafico");
-    QAction *modifica = new QAction("Modifica Grafico");
 
-    menu1->addMenu(menu2);
-    menu1->addAction(carica);
-    menu1->addAction(salva);
-    menu1->addAction(modifica);
+    menuFile->addAction(carica);
+    menuFile->addAction(salva);
+    menuCreazioneModifica->addMenu(menuGrafico);
+    menuCreazioneModifica->addAction(modifica);
     connect(carica, SIGNAL(triggered()), this, SLOT(apriEsploraRisorseCaricaFile()));
     connect(torta, SIGNAL(triggered()), this, SLOT(creaGraficoTorta()));
     connect(spezzata, SIGNAL(triggered()), this, SLOT(creaGraficoSpezzata()));
@@ -238,7 +239,8 @@ QMenuBar *MainWindow::creaMenu()
     connect(salva, SIGNAL(triggered()), this, SLOT(apriEsploraRisorseSalvaFile()));
     connect(modifica, SIGNAL(triggered()), this, SLOT(modificaGrafico()));
 
-    barraMenu->addMenu(menu1);
+    barraMenu->addMenu(menuFile);
+    barraMenu->addMenu(menuCreazioneModifica);
     return barraMenu;
 }
 

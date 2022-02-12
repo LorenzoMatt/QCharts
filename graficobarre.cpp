@@ -19,14 +19,14 @@ string GraficoBarre::getNomeClasse() const
 
 void GraficoBarre::salva(std::string path) const
 {
-    QFile *file = new QFile(QString::fromStdString(path)); // costruttore con il nome del file
+    QFile *file = new QFile(QString::fromStdString(path));
     if (!file->open(QIODevice::WriteOnly | QIODevice::Text))
     {
         throw GraficoNonSalvato();
     }
     else
     {
-        QXmlStreamWriter *inp = new QXmlStreamWriter; // per scrivere dentro a file
+        QXmlStreamWriter *inp = new QXmlStreamWriter;
         inp->setAutoFormatting(true);
         inp->setDevice(file);
         inp->writeStartDocument();         // inizio a scrivere nel file

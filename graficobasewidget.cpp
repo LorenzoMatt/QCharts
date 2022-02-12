@@ -31,8 +31,8 @@ void GraficoBaseWidget::buildBackground()
         QLinearGradient plotAreaGradient;
         plotAreaGradient.setStart(QPointF(0, 1));
         plotAreaGradient.setFinalStop(QPointF(1, 0));
-        plotAreaGradient.setColorAt(0.0, QRgb(0x555555));
-        plotAreaGradient.setColorAt(1.0, QRgb(0x55aa55));
+        plotAreaGradient.setColorAt(0.0, QColor(162, 171, 209));
+        plotAreaGradient.setColorAt(1.0, QColor(159, 198, 214));
         plotAreaGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
         chart->setPlotAreaBackgroundBrush(plotAreaGradient);
         chart->setPlotAreaBackgroundVisible(true);
@@ -56,7 +56,6 @@ GraficoBaseWidget::GraficoBaseWidget(GraficoBase *grafico)
     : QChartView(), grafico(grafico)
 {
     chart = new QChart();
-    chart->setTheme(QChart::ChartThemeQt);
     buildBackground();
     setRenderHint(QPainter::Antialiasing);
 }

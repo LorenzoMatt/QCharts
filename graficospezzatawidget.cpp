@@ -23,7 +23,7 @@ void GraficoSpezzataWidget::visualizzaGrafico()
         axisX->append(QString::fromStdString((*it)->getNome()), contatore);
         contatore++;
     }
-    chart = new QChart();
+
     chart->setTitle(QString::fromStdString(grafico->getTitolo()));
     chart->legend()->hide();
     chart->addSeries(series);
@@ -32,11 +32,11 @@ void GraficoSpezzataWidget::visualizzaGrafico()
     chart->setTitleFont(font);
     chart->setTitleBrush(QBrush(Qt::black));
     chart->setTitle(QString::fromStdString(graficoLinee->getTitolo()));
-    QPen pen(QRgb(0x000000));
+    QPen pen(QRgb(0xfdb157));
+    pen.setWidth(5);
     series->setPen(pen);
 
     chart->setAnimationOptions(QChart::AllAnimations);
     chart->setAxisX(axisX, series);
-    setRenderHint(QPainter::Antialiasing);
     setChart(chart);
 }

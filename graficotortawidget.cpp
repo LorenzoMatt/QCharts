@@ -26,11 +26,9 @@ void GraficoTortaWidget::visualizzaGrafico()
             series->append(slice);
             slice->setLabelVisible();
         }
-        chart = new QChart();
         chart->setTitle(QString::fromStdString(grafico->getTitolo()));
         chart->addSeries(series);
         chart->legend()->hide();
-        setRenderHint(QPainter::Antialiasing);
         setChart(chart);
 }
 

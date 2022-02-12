@@ -28,7 +28,6 @@ void GraficoBarreWidget::visualizzaGrafico()
         }
         series->append(bar);
     }
-    chart = new QChart();
     chart->setTitle(QString::fromStdString(grafico->getTitolo()));
     chart->addSeries(series);
 
@@ -47,6 +46,5 @@ void GraficoBarreWidget::visualizzaGrafico()
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
 
-    setRenderHint(QPainter::Antialiasing);
     setChart(chart);
 }

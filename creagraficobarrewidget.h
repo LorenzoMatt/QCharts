@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QDoubleValidator>
 #include <QLabel>
+#include <QSignalMapper>
 
 #include <list>
 #include <string>
@@ -40,6 +41,12 @@ private:
     void clearWidgets(QLayout *);
 
     int row;
+    class QLineEditAndRemoveButton : public QWidget{
+    public:
+        QLineEditAndRemoveButton(QLineEdit*, QPushButton*, QWidget* = nullptr);
+        QLineEdit* categoria;
+        QPushButton* rimuovi;
+    };
 
     class QLineEditPair
     {
@@ -48,6 +55,9 @@ private:
         QLineEdit *nome;
         QList<QLineEdit *> valori;
     };
+    QSignalMapper* signalMapper;
+
+
     QList<QLineEditPair *> datiEditabili;
 
     QHBoxLayout *layoutBottoniDatiEditabiliWidget;
@@ -63,6 +73,7 @@ private slots:
     void finestraDiConfermaDatiEditabili();
     void aggiungiRigaDatiEditabili();
     void cancellaCreazioneGrafico();
+    void rimuoviRigaCategoria(QWidget * l);
 signals:
     void creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &);
     void cancella();

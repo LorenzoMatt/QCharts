@@ -15,6 +15,12 @@ const list<double> &DatiGraficoBarre::getValori() const
     return valori;
 }
 
+list<double> &DatiGraficoBarre::getValori()
+{
+    return valori;
+}
+
+
 void DatiGraficoBarre::setValori(const list<double> &newValori)
 {
     valori = newValori;

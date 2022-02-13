@@ -9,6 +9,8 @@
 
 using std::list;
 
+class DatiGraficoBarre;
+
 class GraficoBarre: public GraficoBase
 {
 private:
@@ -23,6 +25,7 @@ public:
     void salvaDati( QXmlStreamWriter *) const;
     string getNomeClasse() const;
     const list<string> &getCategorie() const;
+    void removeCategoriaAndValoreAt(int index);
     void setCategorie(const list<string> &newCategorie);
     const list<DatiGraficoBarre *> &getDati() const;
     void setDati(const list<DatiGraficoBarre *> &newDati);

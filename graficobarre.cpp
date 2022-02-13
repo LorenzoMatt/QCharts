@@ -7,6 +7,22 @@ const list<string> &GraficoBarre::getCategorie() const
     return categorie;
 }
 
+void GraficoBarre::removeCategoriaAndValoreAt(int index)
+{
+    auto it = categorie.begin();
+    for(int i = 0; i < index; ++i){
+        ++it;
+    }
+    categorie.erase(it);
+    for(auto it2=dati.begin(); it2!= dati.end();++it2){
+        auto itValore = (*it2)->getValori().begin();
+        for(int i =0 ; i < index; ++i){
+            ++itValore;
+        }
+        (*it2)->getValori().erase(itValore);
+    }
+}
+
 void GraficoBarre::setCategorie(const list<string> &newCategorie)
 {
     categorie = newCategorie;

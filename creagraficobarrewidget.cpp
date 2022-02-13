@@ -1,16 +1,7 @@
 #include "creagraficobarrewidget.h"
 #include "utility.h"
 
-void CreaGraficoBarreWidget::aggiungiDatiCategorie()
-{
-    for(auto it = grafico->getCategorie().begin(); it!= grafico->getCategorie().end(); ++it){
-        QLineEdit *nomeCategoria = new QLineEdit();
-        nomeCategoria->setText(QString::fromStdString(*it));
-        categorieEditabili.push_back(nomeCategoria);
-        layoutCategorieWidget->addWidget(nomeCategoria);
-    }
 
-}
 
 void CreaGraficoBarreWidget::creaSchermataInserimentoDati()
 {
@@ -88,6 +79,7 @@ void CreaGraficoBarreWidget::creaLayoutDatiEditabili()
                     categoriaEditabile->setPlaceholderText("inserisci il valore");
                 categoriaEditabile->setValidator(new QDoubleValidator);
                 gridLayoutDatiEditabili->addWidget(categoriaEditabile, row, colonna, Qt::AlignTop);
+
                 val.push_back(categoriaEditabile);
             }
             row++;
@@ -100,6 +92,7 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(GraficoBarre *grafico, QWidget *p
     : QWidget(parent), grafico(grafico)
 {
     QString title = "Inserisci categorie";
+    signalMapper = new QSignalMapper();
     setWindowTitle(title);
     layoutPrincipale = new QVBoxLayout();
     QPushButton *aggiungiRiga = new QPushButton("Aggiungi valori");
@@ -114,6 +107,8 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(GraficoBarre *grafico, QWidget *p
     connect(salva, SIGNAL(clicked()), this, SLOT(finestraDiConfermaCategorie()));
     connect(aggiungiRiga, SIGNAL(clicked()), this, SLOT(aggiungiRigaNuovaCategoria()));
     connect(cancella, SIGNAL(clicked()), this, SLOT(cancellaCreazioneGrafico()));
+    connect(signalMapper,SIGNAL(mapped(QWidget*)),SLOT(rimuoviRigaCategoria(QWidget*)));
+
 
     layoutBottoniCategorieWidget->addWidget(aggiungiRiga);
     layoutBottoniCategorieWidget->addWidget(cancella);
@@ -126,6 +121,19 @@ CreaGraficoBarreWidget::CreaGraficoBarreWidget(GraficoBarre *grafico, QWidget *p
     setLayout(layoutPrincipale);
 
     setMinimumSize(200, 200);
+}
+
+void CreaGraficoBarreWidget::rimuoviRigaCategoria(QWidget * l)
+{
+    QLineEditAndRemoveButton* lineEdit = dynamic_cast<QLineEditAndRemoveButton*>(l);
+    if(lineEdit){
+        int index = categorieEditabili.indexOf(lineEdit->categoria);
+        categorieEditabili.removeOne(lineEdit->categoria);
+        layoutCategorieWidget->removeWidget(lineEdit);
+        lineEdit->hide();
+        if(grafico)
+            grafico->removeCategoriaAndValoreAt(index);
+    }
 }
 
 CreaGraficoBarreWidget::QLineEditPair::QLineEditPair(QLineEdit *nome, QList<QLineEdit *> valori) : nome(nome), valori(valori)
@@ -160,7 +168,25 @@ void CreaGraficoBarreWidget::aggiungiRigaNuovaCategoria()
     QLineEdit *nomeCategoria = new QLineEdit();
     nomeCategoria->setPlaceholderText("inserisci il nome della categoria");
     categorieEditabili.push_back(nomeCategoria);
-    layoutCategorieWidget->addWidget(nomeCategoria);
+    QPushButton* rimuovi = new QPushButton("Rimuovi");
+    connect(rimuovi,SIGNAL(clicked()),signalMapper,SLOT(map()));
+    QLineEditAndRemoveButton * lineEditAndRemove = new QLineEditAndRemoveButton(nomeCategoria, rimuovi, this);
+    signalMapper->setMapping(rimuovi, lineEditAndRemove);
+    layoutCategorieWidget->addWidget(lineEditAndRemove);}
+
+void CreaGraficoBarreWidget::aggiungiDatiCategorie()
+{
+    for(auto it = grafico->getCategorie().begin(); it!= grafico->getCategorie().end(); ++it){
+        QLineEdit *nomeCategoria = new QLineEdit();
+        nomeCategoria->setText(QString::fromStdString(*it));
+        categorieEditabili.push_back(nomeCategoria);
+        QPushButton* rimuovi = new QPushButton("Rimuovi");
+        connect(rimuovi,SIGNAL(clicked()),signalMapper,SLOT(map()));
+        QLineEditAndRemoveButton * lineEditAndRemove = new QLineEditAndRemoveButton(nomeCategoria, rimuovi, this);
+        signalMapper->setMapping(rimuovi, lineEditAndRemove);
+        layoutCategorieWidget->addWidget(lineEditAndRemove);
+    }
+
 }
 
 void CreaGraficoBarreWidget::finestraDiConfermaDatiEditabili()
@@ -259,4 +285,12 @@ void CreaGraficoBarreWidget::confermaCreazioneGraficoBarre()
     }
     emit creaGraficoBarre(categorie, dati);
     close();
+}
+
+CreaGraficoBarreWidget::QLineEditAndRemoveButton::QLineEditAndRemoveButton(QLineEdit * categoria, QPushButton * rimuovi, QWidget * parent): QWidget(parent), categoria(categoria), rimuovi(rimuovi)
+{
+    QHBoxLayout* layoutRiga = new QHBoxLayout();
+    layoutRiga->addWidget(categoria);
+    layoutRiga->addWidget(rimuovi);
+    setLayout(layoutRiga);
 }

@@ -71,7 +71,6 @@ void TortaOSpezzataWidget::costruisciRigaConDati(string n, double v)
     connect(rimuovi,SIGNAL(clicked()),signalMapper,SLOT(map()));
     QLineEditPair* editPair = new QLineEditPair(nome, valore);
     dati.push_back(editPair);
-    signalMapper->setMapping(rimuovi, editPair);
     QLineEditPairAndRemove* lineEditPairAndRemove = new QLineEditPairAndRemove(editPair, rimuovi, this);
     signalMapper->setMapping(rimuovi, lineEditPairAndRemove);
     layoutDati->addWidget(lineEditPairAndRemove);

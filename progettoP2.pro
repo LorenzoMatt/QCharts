@@ -24,6 +24,7 @@ SOURCES += \
     graficospezzatawidget.cpp \
     graficotorta.cpp \
     graficotortawidget.cpp \
+    gridlayuotutil.cpp \
     inseriscititolowidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     graficospezzatawidget.h \
     graficotorta.h \
     graficotortawidget.h \
+    gridlayuotutil.h \
     inseriscititolowidget.h \
     mainwindow.h \
     tortaospezzatawidget.h \

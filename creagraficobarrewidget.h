@@ -40,6 +40,8 @@ private:
 
     void clearWidgets(QLayout *);
 
+    void updateRowDatiEditabili();
+
     int row;
     class QLineEditAndRemoveButton : public QWidget{
     public:
@@ -48,14 +50,16 @@ private:
         QPushButton* rimuovi;
     };
 
-    class QLineEditPair
+    class QLineEditPair: public QObject
     {
     public:
-        QLineEditPair(QLineEdit *, QList<QLineEdit *>);
+        QLineEditPair(QLineEdit *, QList<QLineEdit *>, int riga);
         QLineEdit *nome;
         QList<QLineEdit *> valori;
+        int riga;
     };
-    QSignalMapper* signalMapper;
+    QSignalMapper* signalMapperCategorie;
+    QSignalMapper* signalMapperDatiEditabili;
 
 
     QList<QLineEditPair *> datiEditabili;
@@ -73,7 +77,8 @@ private slots:
     void finestraDiConfermaDatiEditabili();
     void aggiungiRigaDatiEditabili();
     void cancellaCreazioneGrafico();
-    void rimuoviRigaCategoria(QWidget * l);
+    void rimuoviRigaCategoria(QWidget *);
+    void rimuoviRigaDatiEditabili(QObject *);
 signals:
     void creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &);
     void cancella();

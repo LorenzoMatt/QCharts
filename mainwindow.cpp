@@ -151,7 +151,7 @@ void MainWindow::modificaGrafico()
         }
         GraficoBarre* barre = dynamic_cast<GraficoBarre*>(g);
         if(barre){
-            CreaGraficoBarreWidget* creaGraficoBarreWidget = new CreaGraficoBarreWidget(barre);
+            CreaGraficoBarreWidget* creaGraficoBarreWidget = new CreaGraficoBarreWidget(new GraficoBarre(*barre));
             setCentralWidget(creaGraficoBarreWidget);
             connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), this, SLOT(modificaTitoloBarre()));
             connect(creaGraficoBarreWidget, SIGNAL(creaGraficoBarre(const std::list<string> &, const std::list<DatiGraficoBarre *> &)), controller, SLOT(creaNuovaBarra(const std::list<string> &, const std::list<DatiGraficoBarre *> &)));

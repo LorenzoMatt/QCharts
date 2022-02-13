@@ -67,6 +67,15 @@ void GraficoBarre::setDati(const list<DatiGraficoBarre *> &newDati)
     dati = newDati;
 }
 
+list<DatiGraficoBarre *> GraficoBarre::copiaDati(const list<DatiGraficoBarre *> & d)
+{
+    list<DatiGraficoBarre *> copia;
+    for(auto it = d.begin(); it!= d.end(); ++it){
+        copia.push_back(new DatiGraficoBarre(**it));
+    }
+    return copia;
+}
+
 GraficoBarre::GraficoBarre()
 {
 }
@@ -83,3 +92,8 @@ GraficoBarre::GraficoBarre(const list<string> &categorie, const list<DatiGrafico
                                                                                                                  dati(dati)
 {
 }
+
+GraficoBarre::GraficoBarre(const GraficoBarre & g): GraficoBase(g), categorie(g.categorie), dati(copiaDati(g.dati))
+{
+}
+

@@ -40,8 +40,6 @@ private:
 
     void clearWidgets(QLayout *);
 
-    void updateRowDatiEditabili();
-
     int row;
     class QLineEditAndRemoveButton : public QWidget{
     public:

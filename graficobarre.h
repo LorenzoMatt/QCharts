@@ -16,11 +16,13 @@ class GraficoBarre: public GraficoBase
 private:
     list<string> categorie;
     list<DatiGraficoBarre*> dati;
+    list<DatiGraficoBarre*> copiaDati(const list<DatiGraficoBarre*>&);
 
 public:
     GraficoBarre();
     ~GraficoBarre();
     GraficoBarre(const list<string> &categorie, const list<DatiGraficoBarre *> &dati, string = "Grafico a Barre");
+    GraficoBarre(const GraficoBarre&);
 
     void salvaDati( QXmlStreamWriter *) const;
     string getNomeClasse() const;

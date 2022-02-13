@@ -47,13 +47,6 @@ void CreaGraficoBarreWidget::clearWidgets(QLayout *layout)
     }
 }
 
-void CreaGraficoBarreWidget::updateRowDatiEditabili()
-{
-    for(auto it = datiEditabili.begin(); it!= datiEditabili.end(); ++it){
-        (*it)->riga = (*it)->riga - 1;
-    }
-}
-
 void CreaGraficoBarreWidget::creaLayoutDatiEditabili()
 {
     gridLayoutDatiEditabili->addWidget(new QLabel("Nome"), row, 0, Qt::AlignTop);
@@ -182,7 +175,6 @@ void CreaGraficoBarreWidget::rimuoviRigaDatiEditabili(QObject * o)
         int riga = l->riga;
         datiEditabili.removeOne(l);
         GridLayoutUtil::removeRow(gridLayoutDatiEditabili, riga);
-//        updateRowDatiEditabili();
     }
 }
 

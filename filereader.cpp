@@ -127,7 +127,8 @@ GraficoBarre *FileReader::estraiGraficoBarre(QDomNode nodo, QString titolo, cons
                     QDomNodeList listaValoriElemento = valoreElemento.elementsByTagName("valore");
                     for (int x = 0; x < listaValoriElemento.count(); ++x)
                     {
-                        valori.push_back(listaValoriElemento.at(x).toElement().text().toDouble());
+                        double valore = std::stod(listaValoriElemento.at(x).toElement().text().toStdString());
+                        valori.push_back(valore);
                     }
                 }
                 elementiDelDato = elementiDelDato.nextSibling();

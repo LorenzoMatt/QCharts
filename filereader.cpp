@@ -26,7 +26,7 @@ GraficoTorta *FileReader::estraiDatiTorta(QDomNode nodo, QString titolo, const Q
         {
             QDomElement datoNodo = listaValoriNodi.at(i).toElement();
             QString nome;
-            double valore;
+            double valore = 0;
             QDomNode elementiDelDato = datoNodo.firstChild();
             while (!elementiDelDato.isNull())
             {
@@ -62,7 +62,7 @@ GraficoSpezzata *FileReader::estraiGraficoSpezzate(QDomNode nodo, QString titolo
         {
             QDomElement datoNodo = listaValoriNodi.at(i).toElement();
             QString nome;
-            double valore;
+            double valore = 0;
             QDomNode elementiDelDato = datoNodo.firstChild();
             while (!elementiDelDato.isNull())
             {

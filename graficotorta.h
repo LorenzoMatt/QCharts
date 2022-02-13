@@ -15,7 +15,7 @@ public:
     const map<string, double> &getFette() const;
     void setFette(const map<string, double> &newFette);
 
-    void salva(string) const;
+    void salvaDati(QXmlStreamWriter *) const;
     string getNomeClasse() const;
 };
 

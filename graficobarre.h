@@ -20,7 +20,7 @@ public:
     ~GraficoBarre();
     GraficoBarre(const list<string> &categorie, const list<DatiGraficoBarre *> &dati, string = "Grafico a Barre");
 
-    void salva(string) const;
+    void salvaDati( QXmlStreamWriter *) const;
     string getNomeClasse() const;
     const list<string> &getCategorie() const;
     void setCategorie(const list<string> &newCategorie);

@@ -19,7 +19,7 @@ public:
     GraficoSpezzata();
     ~GraficoSpezzata();
     GraficoSpezzata(const list<CoordinataSpezzata *> &valori, string = "Grafico a Linee");
-    void salva(string) const;
+    virtual void salvaDati(QXmlStreamWriter *) const;
     string getNomeClasse() const;
     const list<CoordinataSpezzata *> &getValori() const;
     void setValori(const list<CoordinataSpezzata *> &newValori);

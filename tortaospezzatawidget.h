@@ -9,6 +9,7 @@
 #include <QDoubleValidator>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSignalMapper>
 
 #include "coordinataspezzata.h"
 #include "string"
@@ -22,18 +23,26 @@ class TortaOSpezzataWidget : public QWidget
 {
     Q_OBJECT
 private:
-    class QLineEditPair
+    class QLineEditPair: public QObject
     {
     public:
         QLineEditPair(QLineEdit *, QLineEdit *);
         QLineEdit *nome;
         QLineEdit *valore;
     };
+    class QLineEditPairAndRemove: public QWidget
+    {
+    public:
+        QLineEditPairAndRemove(QLineEditPair * editPair, QPushButton * rimuovi, QWidget* parent = nullptr);
+        QLineEditPair * editPair;
+        QPushButton * rimuovi;
+    };
 
     QVBoxLayout *layout;
-    QFormLayout *formLayout;
-    QList<QLineEditPair> dati;
+    QVBoxLayout *layoutDati;
+    QList<QLineEditPair*> dati;
     QHBoxLayout *layoutBottoni;
+    QSignalMapper* signalMapper;
     bool graficoTorta;
     GraficoBase* grafico;
 
@@ -55,6 +64,7 @@ private slots:
     void confermaCreazione();
     void aggiungiRiga();
     void cancellaCreazioneGrafico();
+    void rimuoviRiga(QWidget *);
 };
 
 #endif // TORTAOSPEZZATAWIDGET_H

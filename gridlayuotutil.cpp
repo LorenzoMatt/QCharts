@@ -1,23 +1,10 @@
 #include "gridlayuotutil.h"
 
-void GridLayoutUtil::removeRow(QGridLayout *layout, int row, bool deleteWidgets)
+void GridLayoutUtil::rimuoviRiga(QGridLayout *layout, int row, bool deleteWidgets)
 {
     remove(layout, row, -1, deleteWidgets);
     layout->setRowMinimumHeight(row, 0);
     layout->setRowStretch(row, 0);
-}
-
-void GridLayoutUtil::removeColumn(QGridLayout *layout, int column, bool deleteWidgets)
-{
-    remove(layout, -1, column, deleteWidgets);
-    layout->setColumnMinimumWidth(column, 0);
-    layout->setColumnStretch(column, 0);
-}
-
-void GridLayoutUtil::removeCell(QGridLayout *layout, int row, int column, bool deleteWidgets)
-{
-    remove(layout, row, column, deleteWidgets);
-
 }
 
 void GridLayoutUtil::remove(QGridLayout *layout, int row, int column, bool deleteWidgets)

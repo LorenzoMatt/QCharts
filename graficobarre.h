@@ -24,7 +24,7 @@ public:
     GraficoBarre(const list<string> &categorie, const list<DatiGraficoBarre *> &dati, string = "Grafico a Barre");
     GraficoBarre(const GraficoBarre&);
 
-    void salvaDati( QXmlStreamWriter *) const;
+    void salvaDati(QXmlStreamWriter *) const;
     string getNomeClasse() const;
     const list<string> &getCategorie() const;
     void removeCategoriaAndValoreAt(int index);

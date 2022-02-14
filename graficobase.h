@@ -11,7 +11,6 @@ class GraficoBase
 {
 private:
     string titolo;
-
 public:
     GraficoBase();
     GraficoBase(const string &titolo);

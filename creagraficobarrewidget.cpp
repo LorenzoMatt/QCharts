@@ -174,7 +174,7 @@ void CreaGraficoBarreWidget::rimuoviRigaDatiEditabili(QObject * o)
     if(l){
         int riga = l->riga;
         datiEditabili.removeOne(l);
-        GridLayoutUtil::removeRow(gridLayoutDatiEditabili, riga);
+        GridLayoutUtil::rimuoviRiga(gridLayoutDatiEditabili, riga);
     }
 }
 
